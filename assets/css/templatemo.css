@@ -167,6 +167,11 @@ body, ul, li, p, a, label, input, div {
   height: 6px;
 }
 
+.gog-logo{
+  width: 100px;
+  height: 80px;
+}
+
 @media (min-width: 576px) {
   .tempaltemo-carousel .h1 { font-size: 1em !important;}
 }
