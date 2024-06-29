@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -103,7 +104,59 @@ https://templatemo.com/tm-559-zay-shop
         </div>
     </div>
 
+<!-- Highchart start -->
+<div id="container"></div>
 
+    
+<script>
+    $.getJSON('http://localhost:8000/0322103800/values',function(response){
+        var data = response.data;
+        console.log(data);
+        var TimeStamp = data.map(function(item){
+            return item[0];
+        });
+        var Temperature = data.map(function(item){
+            return item[1];
+        });
+        console.log(TimeStamp);
+        console.log(Temperature);
+        Highcharts.chart('container',{
+            chart:{
+                renderTo:'container',
+                type:'spline'
+            },
+            title:{
+                text:'Nodo_0322103800'
+            },
+            subtitle:{
+                text: 'Data input from JSON API'
+            },
+            xAxis:{
+                type:'datetime',
+                title:{
+                    text:'Tiempo'
+                },
+                categories: data.map(function(item){
+                    return item[0];
+                })
+            },
+            yAxis:{
+                title:{
+                    text:'Celsius'
+                }
+            },
+            series:[{
+                name:'Temperatura',
+                data:data.map(function(item){
+                    return item[1];
+                }),
+                enablePolling: true
+            }]
+        });
+    });
+</script>
+
+<!-- Highchart End -->
 
     <!-- Start Banner Hero -->
     <!-- <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
