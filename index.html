@@ -7,7 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script> 
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -19,9 +23,6 @@
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
 <!--
     
-TemplateMo 559 Zay Shop
-
-https://templatemo.com/tm-559-zay-shop
 
 -->
 </head>
@@ -74,11 +75,11 @@ https://templatemo.com/tm-559-zay-shop
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" href="#">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" href="#">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                 </div>
             </div>
@@ -104,62 +105,12 @@ https://templatemo.com/tm-559-zay-shop
         </div>
     </div>
 
-<!-- Highchart start -->
-<div id="container"></div>
 
-    
-<script>
-    $.getJSON('http://localhost:8000/0322103800/values',function(response){
-        var data = response.data;
-        console.log(data);
-        var TimeStamp = data.map(function(item){
-            return item[0];
-        });
-        var Temperature = data.map(function(item){
-            return item[1];
-        });
-        console.log(TimeStamp);
-        console.log(Temperature);
-        Highcharts.chart('container',{
-            chart:{
-                renderTo:'container',
-                type:'spline'
-            },
-            title:{
-                text:'Nodo_0322103800'
-            },
-            subtitle:{
-                text: 'Data input from JSON API'
-            },
-            xAxis:{
-                type:'datetime',
-                title:{
-                    text:'Tiempo'
-                },
-                categories: data.map(function(item){
-                    return item[0];
-                })
-            },
-            yAxis:{
-                title:{
-                    text:'Celsius'
-                }
-            },
-            series:[{
-                name:'Temperatura',
-                data:data.map(function(item){
-                    return item[1];
-                }),
-                enablePolling: true
-            }]
-        });
-    });
-</script>
 
-<!-- Highchart End -->
+
 
     <!-- Start Banner Hero -->
-    <!-- <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+     <!-- <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
             <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
             <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
@@ -233,8 +184,184 @@ https://templatemo.com/tm-559-zay-shop
         <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
             <i class="fas fa-chevron-right"></i>
         </a>
-    </div> -->
+    </div>  -->
     <!-- End Banner Hero -->
+
+<!-- Highchart (Real-time) start -->
+    
+
+<!--Highchart (Real-time) end -->
+
+<script type="text/javascript">
+    var MQTTbroker = 'broker.emqx.io';
+    var MQTTport = 8083;
+    var MQTTsubTopic = 'UTT/0322103800/send/temperature';
+
+    var chart;
+    var dataTopics = [];
+
+    var count_msgs = 0;
+
+    var client = new Paho.MQTT.Client(MQTTbroker, MQTTport, "UTTclientid_0322103800" + parseInt(Math.random() * 100, 10));
+    client.onMessageArrived = onMessageArrived;
+    client.onConnectionLost = onConnectionLost;
+
+    var options = {
+        timeout: 3,
+        onSuccess: function() {
+            console.log('mqtt connected');
+            client.subscribe(MQTTsubTopic, { qos: 1 });
+        },
+        onFailure: function(message) {
+            console.log('Connection Failed, ERROR:' + message.errorMessage);
+        }
+    };
+
+    function onConnectionLost(responseObject) {
+        console.log("Connection Lost:" + responseObject.errorMessage);
+    }
+
+    function onMessageArrived(message) {
+        count_msgs++;
+        console.log('Msg cnt:', count_msgs);
+        console.log(message.destinationName, '', message.payloadString);
+        if (dataTopics.indexOf(message.destinationName) < 0) {
+            dataTopics.push(message.destinationName);
+            var y = dataTopics.indexOf(message.destinationName);
+
+            var newseries = {
+                id: y,
+                name: message.destinationName,
+                data: []
+            };
+
+            chart.addSeries(newseries);
+        }
+
+        var y = dataTopics.indexOf(message.destinationName);
+        var myEpoch = new Date().getTime();
+        var thenum = message.payloadString.replace(/^\D+/g, '');
+        var plotMqtt = [myEpoch, Number(thenum)];
+        if (isNumber(thenum)) {
+            console.log('its a proper number, will send to chart');
+            plot(plotMqtt, y);
+        }
+    }
+
+    function isNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+    function init() {
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        client.connect(options);
+    }
+
+    function plot(point, chartno) {
+        console.log(point);
+        var series = chart.series[0],
+            shift = series.data.length > 20;
+
+        chart.series[chartno].addPoint(point, true, shift);
+    }
+
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'UTT-0322103800: Live Websockets data from MQTT topic'
+            },
+            subtitle: {
+                text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic: ' + MQTTsubTopic
+            },
+            xAxis:{
+                type: 'datetime',
+                tickPixelInterval: 150,
+                maxZoom: 20 * 1000
+            },
+            yAxis: {
+                max:60,
+                min:0,
+                minPadding: 0.2,
+                maxPadding: 0.2,
+                title:{
+                    text:'Temperatura',
+                    margin: 80
+                }
+            },
+            series: []
+        });
+    });
+</script>
+
+<body onload="init();">  
+
+<div id="container" style="height: 500px; min-width: 500px;"></div>
+    
+</body>
+
+
+<!-- Highchart start -->
+<br>
+<br>
+<div id="container"></div>
+
+    
+<script>
+    $.getJSON('http://localhost:8000/0322103800/values',function(response){
+        var data = response.data;
+        console.log(data);
+        var TimeStamp = data.map(function(item){
+            return item[0];
+        });
+        var Temperature = data.map(function(item){
+            return item[1];
+        });
+        console.log(TimeStamp);
+        console.log(Temperature);
+        Highcharts.chart('container',{
+            chart:{
+                renderTo:'container',
+                type:'spline'
+            },
+            title:{
+                text:'Grafica de Lecturas de Sensores'
+            },
+            subtitle:{
+                text: ''
+            },
+            xAxis:{
+                type:'datetime',
+                title:{
+                    text:'Tiempo'
+                },
+                categories: data.map(function(item){
+                    return item[0];
+                })
+            },
+            yAxis:{
+                title:{
+                    text:'Celsius'
+                }
+            },
+            series:[{
+                name:'Temperatura',
+                data:data.map(function(item){
+                    return item[1];
+                }),
+                enablePolling: true
+            }]
+        });
+    });
+</script>
+<!-- Highchart End -->
 
 
     <!-- Start Categories of The Month -->
