@@ -1,3 +1,63 @@
-/*
-Custom Css
-*/
+body {
+    width: 100%;
+    margin: 0;
+}
+
+#join-banner{
+    height: 405px;
+    background-color:rgb(211, 253, 210);
+    background-position: center;
+    width: 100%;
+    height: 250px;
+    color: #787a54;
+    text-align: center;
+    padding:70px 0;
+
+}
+
+p{
+    font-size: 1.1em;
+    font-weight: 100;
+    letter-spacing: 1px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+
+}
+
+#btn-registro{
+    display: inline-block;
+    border: 3px solid;
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px; 
+}
+
+.show-img{
+    display: grid;
+    border: 1px solid #706a6a;
+    padding: 10px;
+    width: 500px;
+    align-items: center;
+    border-radius: 5px;
+    margin-left: 60px;
+    margin-right: auto;
+    margin-top: 50px;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 5px;
+    float: left;
+}
+
+#infoTitle1{
+    position:relative;
+    top: 100px;
+    text-align: right;
+    margin-right: 300px;
+}
+
+#infotxt1{
+    padding: 150px;
+    margin-right: 50px;
+    text-align: right;
+}

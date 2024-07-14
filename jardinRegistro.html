@@ -1,0 +1,72 @@
+<html>
+<!--Comentario prueba-->
+<head>
+    <title> Jardin </title>
+    <link rel="Stylesheet" href="./assets/css/registro.css" type="text/css">
+    <meta type="author" />
+</head>
+
+<body>
+
+    <main>
+        <section class="contact_form">
+
+            <section class="formulario">
+               
+                <h1> Casi terminamos,&iquest;como planeas tener tu Jardin?</h1>
+                <form action="./data/global-classes/clientes/addCliente.php" method="post">
+
+                    <section>
+                        <label class="colocar_nombre">Ubicacion del Jardin:
+                            <span class="obligatorio">*</span>
+                        </label>
+                        <div id="garden-select">
+                            <select id="standard-select" required>
+                                <option value="patio">Patio</option>
+                                <option value="Dentro">Dentro del Hogar</option>
+                                <option value="Pared">Pared(Vertical)</option>
+                                <option value="Terraza">Terraza/Balcon</option>
+                            </select>
+                        </div>
+                    </section>
+
+                    <section>
+                        <label class="colocar_nombre">Planta a Cuidar:
+                            <span class="obligatorio">*</span>
+                        </label>
+                        <div id="garden-select">
+                            <select id="standard-select" required>
+                                <optgroup label="Plantas Cosmeticas">
+                                    <option value="lirios">Lirios</option>
+                                    <option value="rosas">Rosas</option>
+                                    <option value="hortenesias">Hortenesias</option>
+                                    <option value="jazmin">Jazmin</option>
+                                    <option value="lirios">Lirios</option>
+                                </optgroup>
+                                <optgroup label="Cultivos Comestibles">
+                                    <option value="tomate">Tomates</option>
+                                    <option value="hierbabuena">Hierbabuena</option>
+                                    <option value="perejil">Perejil</option>
+                                    <option value="oregano">Oregano</option>
+                                    <option value="zanahorias">Zanahorias</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </section>
+
+                    <a href="./index.html" type="submit" value="Enviar" class="Registrarce">DA</a>
+            </section>
+
+            <a href="./index.html">Cancelar</a>
+
+            <section class="aviso">
+                <span class="obligatorio"> * </span>los campos son obligatorios.
+            </section>
+            </form>
+        </section>
+    </main>
+
+</body>
+</section>
+
+</html>
