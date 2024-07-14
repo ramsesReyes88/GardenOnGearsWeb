@@ -4,6 +4,7 @@ body {
 }
 
 #join-banner{
+
     height: 405px;
     background-color:rgb(211, 253, 210);
     background-position: center;
@@ -11,7 +12,7 @@ body {
     height: 250px;
     color: #787a54;
     text-align: center;
-    padding:70px 0;
+    padding: 150px 0;
 
 }
 
@@ -36,7 +37,7 @@ p{
 
 .show-img{
     display: grid;
-    border: 1px solid #706a6a;
+    border: 2px solid #433f3f;
     padding: 10px;
     width: 500px;
     align-items: center;
@@ -44,7 +45,6 @@ p{
     margin-left: 60px;
     margin-right: auto;
     margin-top: 50px;
-    grid-template-columns: 1fr 1fr 1fr;
     column-gap: 5px;
     float: left;
 }
@@ -60,4 +60,36 @@ p{
     padding: 150px;
     margin-right: 50px;
     text-align: right;
+}
+
+.show-img2{
+    display: grid;
+    border: 2px solid #433f3f;
+    padding: 10px;
+    width: 450px;
+    width: 400px;
+    align-items: center;
+    border-radius: 5px;
+    margin-right: 60px;
+    margin-left: auto;
+    margin-top: 50px;
+    column-gap: 5px;
+    float: right;
+}
+
+#infoTitle2{
+    position:relative;
+    top: 100px;
+    text-align: left;
+    margin-left: 250px;
+}
+
+#infotxt2{
+    padding: 150px;
+    margin-left: 110px;
+    text-align: left;
+}
+
+.row{
+    padding: 30px;
 }

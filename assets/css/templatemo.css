@@ -68,11 +68,43 @@ body, ul, li, p, a, label, input, div {
   color: #fff;
 }
 /* Nav */
-#templatemo_nav_top { min-height: 40px;}
+#templatemo_nav_top { min-height: 40px; position: sticky;}
 #templatemo_nav_top * { font-size: .9em !important;}
 #templatemo_main_nav a { color: #212934;}
 #templatemo_main_nav a:hover { color: #69bb7e;}
 #templatemo_main_nav .navbar .nav-icon { margin-right: 20px;}
+
+#templatemo_nav_top
+
+.navbar,.navbar-expand-lg,.navbar-light,.shadow{
+  display: block;
+  position: fixed;
+  background-color: #fff;
+  width: 100%;
+  z-index: 1;
+  overflow: hidden;
+  text-align: center;
+}
+
+.fa-search{
+  right: 110px;
+}
+
+.fa-cart-arrow-down{
+  right: 80px;
+}
+
+.fa-user{
+  right: 50px;
+}
+
+.fa-search,.fa-cart-arrow-down,.fa-user{
+  z-index: 1;
+  position: fixed;
+  align-items: end;
+  column-gap: 5px;
+  display: grid;
+}
 
 /* Hero Carousel */
 #template-mo-zay-hero-carousel { background: #efefef !important;}

@@ -1,0 +1,177 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.h-100 {
+    background-color: #eeedf0;
+
+}
+
+.h-custom {
+    height: 100vh !important;
+    padding: 50px;
+}
+
+
+
+.card-registration {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+    top: 13px;
+}
+
+.card-registration .card-body {
+    padding: 0;
+}
+
+.p-5 {
+    padding: 3rem !important;
+}
+
+.mb-5 {
+    margin-bottom: 3rem !important;
+}
+
+.mt-2 {
+    margin-top: .5rem !important;
+}
+
+.pt-1 {
+    padding-top: .25rem !important;
+}
+
+.pt-5 {
+    padding-top: 3rem !important;
+}
+
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.bg-body-tertiary {
+    background-color: #f1f3f5 !important;
+}
+
+.text-body {
+    color: #343a40 !important;
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.text-end {
+    text-align: end !important;
+}
+
+.btn-dark {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.btn-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn-lg {
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+}
+
+.form-control-sm {
+    height: calc(1.8125rem + 2px);
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.rounded-3 {
+    border-radius: .3rem !important;
+}
+
+.card-registration-2 .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.col-img,
+.col-description,
+.col-quantity,
+.col-price,
+.col-remove {
+    flex: 1;
+    margin-right: 1rem;
+}
+
+.col-img img {
+    max-width: 100px;
+}
+
+.col-quantity {
+    display: flex;
+    align-items: center;
+}
+
+.col-remove {
+    text-align: end;
+}
+
+.col-lg-8{
+    padding-right: 80px;
+    margin-right: 350px;
+    position: relative;
+    display: grid;
+    align-items:start;
+    float: left;
+}
+
+.col-lg-4{
+    padding: 10px 10px;
+    float:right;
+    margin-top:50px;
+    margin-left: 700px;
+    position: absolute;
+    display: grid;
+
+}
