@@ -59,7 +59,10 @@ p{
 #infotxt1{
     padding: 150px;
     margin-right: 50px;
-    text-align: right;
+    text-align: center;
+    position: relative;
+    left: 50px;
+
 }
 
 .show-img2{
@@ -87,7 +90,9 @@ p{
 #infotxt2{
     padding: 150px;
     margin-left: 110px;
-    text-align: left;
+    text-align: center;
+    right: 50px;
+    position: relative;
 }
 
 .row{

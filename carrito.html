@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/carrito.css">
+    <title>GardenOnGears PlantCare</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script> 
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/templatemo.css">
-    <title>Carrito</title>
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+<!--
+    
+
+-->
 </head>
+
 <body>
+    <!-- Start Top Nav -->
+    
+
+
+    <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
@@ -53,7 +77,7 @@
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <a class="nav-icon position-relative text-decoration-none" href="adminSite.html">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
@@ -84,15 +108,7 @@
                             <h6 class="text-muted">Shirt</h6>
                             <h6 class="mb-0">Cotton T-shirt</h6>
                           </div>
-                          <div class="col-quantity">
-                            <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                              <i class="fas fa-minus"></i>
-                            </button>
-                            <input min="0" name="quantity" value="1" type="number" class="form-control form-control-sm">
-                            <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                              <i class="fas fa-plus"></i>
-                            </button>
-                          </div>
+                          
                           <div class="col-price">
                             <h6 class="mb-0">€ 44.00</h6>
                           </div>
@@ -109,15 +125,7 @@
                             <h6 class="text-muted">Shirt</h6>
                             <h6 class="mb-0">Cotton T-shirt</h6>
                           </div>
-                          <div class="col-quantity">
-                            <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                              <i class="fas fa-minus"></i>
-                            </button>
-                            <input min="0" name="quantity" value="1" type="number" class="form-control form-control-sm">
-                            <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                              <i class="fas fa-plus"></i>
-                            </button>
-                          </div>
+                         
                           <div class="col-price">
                             <h6 class="mb-0">€ 44.00</h6>
                           </div>
@@ -134,15 +142,7 @@
                             <h6 class="text-muted">Shirt</h6>
                             <h6 class="mb-0">Cotton T-shirt</h6>
                           </div>
-                          <div class="col-quantity">
-                            <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                              <i class="fas fa-minus"></i>
-                            </button>
-                            <input min="0" name="quantity" value="1" type="number" class="form-control form-control-sm">
-                            <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                              <i class="fas fa-plus"></i>
-                            </button>
-                          </div>
+                         
                           <div class="col-price">
                             <h6 class="mb-0">€ 44.00</h6>
                           </div>
