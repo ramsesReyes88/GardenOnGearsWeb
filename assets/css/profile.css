@@ -7,15 +7,19 @@
 }
 
 .profile-card {
-    background-color: rgb(244, 244, 244);
+    background-color: rgb(255, 255, 255);
     border: 1px solid #000;
     border-radius: 20px;
     padding: 20px;
-    width: 540px;
-    height: 400px;
+    max-width: 800px;
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);
+   
 }
 
 .profile-img {
@@ -23,11 +27,12 @@
     border: 4px solid #000;
     display: block;
     margin: 0 auto;
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     transition: .5s ease;
     backface-visibility: hidden;
-    transform: translate(0%, -50%);
+    transform: translate(-12%, -50%);
+    box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);
 }
 
 .changePicture {
@@ -55,4 +60,20 @@
 
 .pic-container:hover .changePicture {
     opacity: 0.5;
+}
+
+.text-container{
+    text-align: center;
+    bottom: 30px;
+    margin-top: -30px;
+}
+
+.pressables{
+    display: flex;
+    align-items: start;
+    float:left; 
+    position: absolute; 
+    margin-right:580px;
+  
+    
 }
