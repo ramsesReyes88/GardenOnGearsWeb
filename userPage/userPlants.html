@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>GardenOnGears PlantCare</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="/mygauge/justgage/raphael-2.1.4.min.js"></script>
+    <script src="/mygauge/justgage/justgage.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></link>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script> 
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/templatemo.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/usercss/usercss.css">
+    <link rel="stylesheet" href="../assets/css/usercss/chartsStyles.css">
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+<!--
+    
+
+-->
+</head>
+
+<body>
+    <!-- Start Top Nav -->
+    
+
+
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+            <img class = "gog-logo" src="../assets/img/apple-icon.png">   
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+                <div class="flex-fill">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="userPlants.html">Plantas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../shop.html">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../contact.html">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar align-self-center d-flex">
+                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
+                            <div class="input-group-text">
+                                <i class="fa fa-fw fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                    </a>
+                    <a class="nav-icon position-relative text-decoration-none" href="../carrito.html">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    <a class="nav-icon position-relative text-decoration-none" href="../profile.html">
+                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    
+                   
+                </div>
+            </div>
+
+        </div>
+    </nav>
+    <!-- Close Header -->
+
+    <!-- Modal -->
+    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="w-100 pt-1 mb-5 text-right">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="get" class="modal-content modal-body border-0 p-0">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                    <button type="submit" class="input-group-text bg-success text-light">
+                        <i class="fa fa-fw fa-search text-white"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="cards-container">
+        <div class="plant-card">
+            
+            <p><strong></strong><img class ="plantImg" src="../assets/img/Hierbabuena_0611_Revised.jpg"></p>
+            <p><strong>Nombre:</strong> Chlorophytum comosum</p>
+            <br>
+            <p><strong>Descripcion de Cuidados:</strong> Necesita alta gama de sol, poca temperatura y un buen aire</p>
+            <br>
+            <p><strong>Cantidad Riego Requerido:</strong> 2 veces al Dia</p>
+            <br>
+            <p><strong>Fecha Plantado:</strong> 04/09/2004</p>
+           
+           
+        </div>
+    </div>
+
+    <div class = "dataContainer">
+        <h3 align = "center">Tus datos registrados</h3>
+        <!-- Start Normal Counter -->
+        <table style="width: 100%">
+            <tr>
+            <td style ="width: 17%">
+                <div class = "container mt-5">
+                    <div class = "cardTemp">
+                        <div class = "card-body">
+                            <h5 class="card-title">Temperatura</h5>
+                            <div class="temperature" id="temperature"></div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td style ="width: 17%">
+                <div class = "container2 mt-5">
+                    <div class = "cardHum">
+                        <div class = "card-body">
+                            <h5 class="card-title">Humedad</h5>
+                            <div class="humidity" id="humidity"></div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td style ="width: 17%">
+                <div class = "container3 mt-5">
+                    <div class = "cardLux">
+                        <div class = "card-body">
+                            <h5 class="card-title">Luminosidad</h5>
+                            <div class="luminosity" id="luminosity"></div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td style="width: 16%"></td>
+            <td style="width: 16%"></td>
+            <td style="width: 16%"></td>
+            <td style="width: 16%"></td>
+            <td style="width: 16%"></td>
+            <td style="width: 16%"></td>
+        </table>
+        <script>
+            function updateValues(){
+                $.getJSON("http://localhost:8000/0322103800/getValue",function(response){
+                    var temperature = response.data.temperature;
+                    var humidity = response.data.RH;
+                    var luminosity = response.data.lux;
+        
+                    $('#temperature').text(temperature + ' °C');
+                    $('#humidity').text(humidity + ' %');  
+                    $('#luminosity').text(luminosity + ' %');
+                });
+            }
+            updateValues();
+            setInterval(updateValues,5000);
+        </script>
+        <!-- End Normal Counter -->
+        <!-- Start Gage -->
+        <div class="gauge-container">
+            <div id="temperature_gauge" class="gauge" style="width:400px; height:320px"></div>
+            <div id="humidity_gauge" class="gauge" style="width:400px; height:320px"></div>
+            <div id="luminosity_gauge" class="gauge" style="width:350px; height:320px"></div>
+        </div>
+    
+        <script>
+            var gauge_temp;
+            var gauge_hum;
+            var gauge_lux;
+    
+            function initGauge() {
+                gauge_temp = new JustGage({
+                    id: "temperature_gauge",
+                    value: 0,
+                    min: 0,
+                    max: 50,
+                    title: "Temperatura",
+                    levelColors: ["#0000FF"],
+                    label: "°C"
+                });
+                gauge_hum = new JustGage({
+                    id: "humidity_gauge",
+                    value: 0,
+                    min: 0,
+                    max: 100,
+                    title: "Humedad Relativa",
+                    levelColors: ["#00FF00"],
+                    label: "%"
+                });
+                gauge_lux = new JustGage({
+                    id: "luminosity_gauge",
+                    value: 0,
+                    min: 0,
+                    max: 4095,
+                    title: "Luminosidad",
+                    levelColors: ["#FF0000"],
+                    label: "%"
+                });
+            }
+    
+            function updateGauge(temperature, humidity, luminosity) {
+                gauge_temp.refresh(temperature);
+                gauge_hum.refresh(humidity);
+                gauge_lux.refresh(luminosity);
+            }
+    
+            function updateValues() {
+               
+                $.getJSON('http://localhost:8000/0322103800/getValue', function(response) {
+                    var temperature = response.data.temperature;
+                    var humidity = response.data.RH;
+                    var luminosity = response.data.lux;
+                    console.log("Temperature = " + temperature);
+                    console.log("Humidity = " + humidity);
+                    console.log("Luminosity = " + luminosity);
+                    
+                    $('#temperature').text(temperature + ' °C');
+                    $('#humidity').text(humidity + ' %');
+                    $('#luminosity').text(luminosity + ' %');
+                    updateGauge(temperature, humidity,luminosity);
+                    
+                });
+            }
+    
+            $(document).ready(function() {
+                initGauge();
+                updateValues();
+                setInterval(updateValues, 5000);
+            });
+        </script>
+        <!-- End Gage -->
+         <!-- Start Highchart -->
+        <div class="charts-container">
+            <div id="temperature_chart"></div>
+            <div id="humidity_chart"></div>
+            <div id="luminosity_chart"></div>
+        </div>
+        <script>
+            function createChart(container, titleText, yAxisTitle, seriesName) {
+                return Highcharts.chart(container, {
+                    chart: {
+                        reflow: true,
+                        type: 'spline'
+                    },
+                    title: {
+                        text:  titleText
+                    },
+                    subtitle: {
+                        text: 'Data input from JSON API'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        title: {
+                            text: 'Tiempo'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: yAxisTitle
+                        }
+                    },
+                    series: [{
+                        name: seriesName,
+                        data: [],
+                        enablePolling: true
+                    }]
+                });
+            }
+        
+            var temperatureChart = createChart('temperature_chart', 'Temperatura', 'Celsius', 'Temperatura');
+            var humidityChart = createChart('humidity_chart', 'Humedad', '%', 'Humedad');
+            var luminosityChart = createChart('luminosity_chart', 'Luminosidad', '%', 'Luminosidad');
+        
+            function updateCharts() {
+                $.getJSON('http://localhost:8000/0322103800/singleValues', function(response) {
+                    var data = response.data;
+                    console.log('Received data:', data);
+        
+                    if (data.length > 0) {
+                        var timestamp = Date.parse(data[0][0]);
+                        var temperature = data[0][1];
+                        var humidity = data[0][2];
+                        var luminosity = data[0][3];
+        
+                        console.log('Timestamp:', timestamp);
+                        console.log('Temperature:', temperature);
+                        console.log('Humidity:', humidity);
+                        console.log('Luminosity:', luminosity);
+        
+                        console.log('Adding point to temperature chart:', [timestamp, temperature]);
+                        console.log('Adding point to humidity chart:', [timestamp, humidity]);
+                        console.log('Adding point to luminosity chart:', [timestamp, luminosity]);
+        
+                        temperatureChart.series[0].addPoint([timestamp, temperature], true, false);
+                        humidityChart.series[0].addPoint([timestamp, humidity], true, false);
+                        luminosityChart.series[0].addPoint([timestamp, luminosity], true, false);
+
+                        temperatureChart.series[0].update({ color: '#0000FF' }); 
+                        humidityChart.series[0].update({ color: '#00FF00' });   
+                        luminosityChart.series[0].update({ color: '#FF0000' }); 
+        
+                        temperatureChart.redraw();
+                        humidityChart.redraw();
+                        luminosityChart.redraw();
+                    } else {
+                        console.log('No data received from API.');
+                    }
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data:', textStatus, errorThrown);
+                });
+            }
+        
+            updateCharts();
+        
+            setInterval(updateCharts, 5000);
+        </script>
+         <div class="charts-container">
+            <div id="temperature_chart"></div>
+            <div id="humidity_chart"></div>
+            <div id="luminosity_chart"></div>
+        </div>
+            <script>
+                function createChart(container, titleText, yAxisTitle, seriesName) {
+                    return Highcharts.chart(container, {
+                        chart: {
+                            reflow: true,
+                            type: 'spline'
+                        },
+                        title: {
+                            text:  titleText
+                        },
+                        subtitle: {
+                            text: 'Data input from JSON API'
+                        },
+                        xAxis: {
+                            type: 'datetime',
+                            title: {
+                                text: 'Tiempo'
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: yAxisTitle
+                            }
+                        },
+                        series: [{
+                            name: seriesName,
+                            data: [],
+                            enablePolling: true
+                        }]
+                    });
+                }
+            
+                var temperatureChart = createChart('temperature_chart', 'Temperatura', 'Celsius', 'Temperatura');
+                var humidityChart = createChart('humidity_chart', 'Humedad', '%', 'Humedad');
+                var luminosityChart = createChart('luminosity_chart', 'Luminosidad', '%', 'Luminosidad');
+            
+                function updateCharts() {
+                    $.getJSON('http://localhost:8000/0322103800/singleValues', function(response) {
+                        var data = response.data;
+                        console.log('Received data:', data);
+            
+                        if (data.length > 0) {
+                            var timestamp = Date.parse(data[0][0]);
+                            var temperature = data[0][1];
+                            var humidity = data[0][2];
+                            var luminosity = data[0][3];
+            
+                            console.log('Timestamp:', timestamp);
+                            console.log('Temperature:', temperature);
+                            console.log('Humidity:', humidity);
+                            console.log('Luminosity:', luminosity);
+            
+                            console.log('Adding point to temperature chart:', [timestamp, temperature]);
+                            console.log('Adding point to humidity chart:', [timestamp, humidity]);
+                            console.log('Adding point to luminosity chart:', [timestamp, luminosity]);
+            
+                            temperatureChart.series[0].addPoint([timestamp, temperature], true, false);
+                            humidityChart.series[0].addPoint([timestamp, humidity], true, false);
+                            luminosityChart.series[0].addPoint([timestamp, luminosity], true, false);
+    
+                            temperatureChart.series[0].update({ color: '#0000FF' }); 
+                            humidityChart.series[0].update({ color: '#00FF00' });   
+                            luminosityChart.series[0].update({ color: '#FF0000' }); 
+            
+                            temperatureChart.redraw();
+                            humidityChart.redraw();
+                            luminosityChart.redraw();
+                        } else {
+                            console.log('No data received from API.');
+                        }
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching data:', textStatus, errorThrown);
+                    });
+                }
+                updateCharts();
+                setInterval(updateCharts, 5000);
+            </script>
+    </div>      
+</body>
+</html>

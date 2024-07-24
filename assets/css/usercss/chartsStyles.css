@@ -1,0 +1,74 @@
+.gauge-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 100px;
+}
+.gauge {
+    flex: 1;
+    max-width: 300px;
+    min-width: 200px;
+    margin: 10px;
+}
+
+.cardTemp,.cardHum,.cardLux{
+    margin: 10px;
+    width: 200px;
+    height: 150px;
+    padding: 10px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-column-gap: 10px;
+    border-radius: 3px;
+    background-color: #3a3838;
+    color: white;
+    text-align: center;
+    margin-left: 95px;
+}
+
+.card-title {
+    font-size: 24px;
+}
+.temperature {
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.humidity {
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.luminosity {
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.charts-container {
+    display: flex; 
+    justify-content: space-around; 
+    margin: 1em auto; 
+}
+
+#temperature_chart, #humidity_chart, #luminosity_chart {
+    width: 30%; 
+    height: 300px;
+    margin: 0 5px; 
+}
+
+.dataContainer{
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    width: 80%;
+    transition: transform 0.2s;
+    margin-top: 100px;
+    position: absolute;
+    transform: translate(12%, 0%);
+    justify-content: center;
+}
