@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
-    <link rel="stylesheet" href="assets/css/admincss/menuAdmin.css">
+    <link rel="stylesheet" href="../assets/css/admincss/menuAdmin.css">
 </head>
 <body>
 <nav class="main-menu">
@@ -19,7 +19,7 @@
                     </li>
     
                     <li class="has-subnav">
-                        <a href="./adminPages/clientesAdm.html">
+                        <a href="./clientesAdm.html">
                             <i class="fa fa-user fa-2x"></i>
                             <span class="nav-text">
                                 Clientes
@@ -29,7 +29,7 @@
                     </li>
     
                     <li class="has-subnav">
-                        <a href="./adminPages/pedidosAdm.html">
+                        <a href="./pedidosAdm.html">
                             <i class="fa fa-archive fa-2x"></i>
                             <span class="nav-text">
                                 Pedidos
@@ -40,7 +40,7 @@
     
 
                     <li class="has-subnav">
-                        <a href="./adminPages/pagosAdm.html">
+                        <a href="./pagosAdm.html">
                             <i class="fa fa-money-bill fa-2x"></i>
                             <span class="nav-text">
                                 Pagos
@@ -49,7 +49,7 @@
                     </li>
     
                     <li class="has-subnav">
-                        <a href="./adminPages/productosAdm.html">
+                        <a href="./productosAdm.html">
                            <i class="fa fa-shopping-basket fa-2x"></i>
                             <span class="nav-text">
                                 Productos
@@ -58,7 +58,7 @@
                     </li>
 
                     <li class="has-subnav">
-                        <a href="./adminPages/plantasAdm.html">
+                        <a href="./plantasAdm.html">
                             <i class="fa fa-leaf fa-2x"></i>
                              <span class="nav-text">
                                 Plantas
@@ -72,8 +72,8 @@
     
                 <ul class="logout">
                     <li>
-                       <a href="index.html">
-                             <i class="fa fa-power-off fa-2x"></i>
+                        <a href="#" onclick="logout()">
+                            <i class="fa fa-power-off fa-2x"></i>
                             <span class="nav-text">
                                 Salir
                             </span>
@@ -81,5 +81,16 @@
                     </li>  
                 </ul>
             </nav>   
+
+    <script>
+        function logout() {
+            // Elimina el token de usuario del almacenamiento local
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('nombreUsuario');
+            
+            // Redirige al usuario a la página de inicio de sesión del administrador
+            window.location.href = '../index.html';
+        }
+    </script>
 </body>
 </html>

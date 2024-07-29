@@ -17,10 +17,12 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <link rel="stylesheet" href="assets/css/custom.css">
+    
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    
 <!--
     
 
@@ -51,41 +53,27 @@
                             <a class="nav-link" href="index.html">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./userPage/userPlants.html">Plantas</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="shop.html">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact</a>
+                            <a id="linkPlantas" class="nav-link" href="./userPage/userPlants.html">Plantas</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                            <div class="input-group-text">
-                                <i class="fa fa-fw fa-search"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="./carrito.html">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                    <a id="linkLogout" class="nav-icon  text-decoration-none" href="#" onclick="logout()">
+                        <i class="fa fa-fw fa-sign-out-alt text-dark mr-2"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="profile.html">
+                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none" href="./carrito.html">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-2"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="profile.html">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     
-                    <a class="nav-icon position-relative text-decoration-none" href="adminSite.html">
-                         Admin
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
-                    </a>
                 </div>
             </div>
 
@@ -111,14 +99,24 @@
     </div>
 
 
-    <div id = "join-banner">
-        <p>Bienvenido a tu sitio de confianza para el buen cuidado de tus cultivos</p>
-        <p>¿Desea registrarse?<p>
-        <a id = "btn-registro" href="registro.html">Crea una cuenta</a>
+    <div id="join-banner">
+        <br>
+        <h4>Bienvenido a tu sitio de confianza para el buen cuidado de tus cultivos</h4>
+        <div class="join-options">
+            <div class="join-option">
+                <p>¿Desea registrarse?</p>
+                <a id="btn-registro" href="registro.html">Crea una cuenta</a>
+            </div>
+            
+            <div class="join-option">
+                <p>¿O prefiere Iniciar Sesion?</p>
+                <a id="btn-registro" href="inicioSesion.html">Iniciar Sesion</a>
+            </div>
+        </div>
     </div>
 
-    <div id = "infobanner1">
-        <img class = "show-img" src = "./assets/img/mockup-page.png">
+    <div id="infobanner1">
+        <img class="show-img" src="./assets/img/mockup-page.png">
         <h1 id="infoTitle1">¿Que ofrecemos?</h1>
         <p id="infotxt1"> GardenOnGears ofrece un sistema de administracion para cultivos rapido y facil de usar, 
             quitandote de preocupaciones como lo son el regado de tu planta, o estar tomando medidas 
@@ -127,8 +125,8 @@
         </p>
     </div>
 
-    <div id = "infobanner2">
-        <img class = "show-img2" src = "./assets/img/dataDemo.png">
+    <div id="infobanner2">
+        <img class="show-img2" src="./assets/img/dataDemo.png">
         <h1 id="infoTitle2">Escoje tu forma de ver los Datos</h1>
         <p id="infotxt2"> Si no eres una persona que siente que los datos mostrados por medio de numeros son bastantes
             simples y poco llamativos, tenemos para ti, la opcion de dejarte elegir como quieres mostrar los datos,
@@ -138,6 +136,27 @@
         </p>
     </div>
 
+    <script>
+        $(document).ready(function() {
+            var userName = localStorage.getItem('nombreUsuario');
+            var userToken = localStorage.getItem('userToken');
+            if (userName && userToken) {
+                $("#join-banner").html('<p>Bienvenido, ' + userName + '</p>');
+                $("#infobanner1, #infobanner2").hide();
+                $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").show();
+            } else {
+                $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").hide();
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('nombreUsuario');
+            localStorage.removeItem('cart'); 
+            alert("Sesión cerrada correctamente");
+            window.location.href = './index.html';
+        }
+    </script>
 
     <!-- Start Script -->
     <script src="assets/js/jquery-1.11.0.min.js"></script>
@@ -147,5 +166,4 @@
     <script src="assets/js/custom.js"></script>
     <!-- End Script -->
 </body>
-
 </html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="../assets/css/registro.css" type="text/css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <main>
+        <section class="contact_form">
+            <section class="formulario">
+                <h1>Iniciar Sesión</h1>
+                <form id="inicioSesionForm">
+                    <section>
+                        <label class="colocar_nombre">Nombre de Usuario
+                            <span class="obligatorio">*</span>
+                        </label>
+                        <input type="text" name="nombreUsuario" maxlength="20" placeholder="Tu nombre de usuario" required>
+                    </section>
+                    <section>
+                        <label class="colocar_contraseña">Contraseña
+                            <span class="obligatorio">*</span>
+                        </label>
+                        <input type="password" name="contrasena" minlength="8" maxlength="20" placeholder="Escribe tu contraseña" required>
+                    </section>
+                    <button type="button" onclick="iniciarSesion()">Iniciar Sesión</button>
+                </form>
+                <a href="./index.html">Cancelar</a>
+                <section class="aviso">
+                    <span class="obligatorio"> * </span> Los campos son obligatorios.
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script>
+        function iniciarSesion() {
+            var nombreUsuario = $("input[name='nombreUsuario']").val();
+            var contrasena = $("input[name='contrasena']").val();
+
+            $.ajax({
+                url: 'https://localhost:44313/api/Usuarios', // Endpoint de la colección de usuarios
+                type: 'GET',
+                success: function(response) {
+                    // Encuentra el usuario que coincide con el nombre de usuario
+                    var usuario = response.find(user => user.nombreUsuario === nombreUsuario);
+
+                    if (usuario) {
+                        // Verifica la contraseña
+                        if (usuario.contrasena === contrasena) {
+                            // Verifica si el usuario es administrador
+                            if (usuario.tipoUsuario === 'A') {
+                                localStorage.setItem('userToken', usuario.id); // Guarda el ID del usuario como token
+                                localStorage.setItem('nombreUsuario', usuario.nombreUsuario); // Guarda el nombre de usuario
+                                alert("Inicio de sesión exitoso");
+                                window.location.href = './adminSite.html'; // Redirige a la página del administrador
+                            } else {
+                                alert("Acceso restringido: solo para administradores.");
+                            }
+                        } else {
+                            alert("Contraseña incorrecta.");
+                        }
+                    } else {
+                        alert("Nombre de usuario no encontrado.");
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error en el inicio de sesión:", jqXHR.responseText);
+                    alert("Error en el inicio de sesión: " + jqXHR.responseText);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

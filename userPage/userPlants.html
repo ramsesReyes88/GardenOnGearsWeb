@@ -25,10 +25,6 @@
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
-<!--
-    
-
--->
 </head>
 
 <body>
@@ -55,27 +51,22 @@
                             <a class="nav-link" href="../index.html">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="userPlants.html">Plantas</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="../shop.html">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../contact.html">Contact</a>
+                            <a id="linkPlantas" class="nav-link" href="./userPlants.html">Plantas</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                            <div class="input-group-text">
-                                <i class="fa fa-fw fa-search"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                    <a id="linkLogout" class="nav-icon position-relative text-decoration-none" href="#" onclick="logout()">
+                        <i class="fa fa-fw fa-sign-out-alt text-dark mr-4"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+
+                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="../profile.html">
+                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" href="../carrito.html">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
@@ -94,23 +85,7 @@
     </nav>
     <!-- Close Header -->
 
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
+   
     <div class="cards-container">
         <div class="plant-card">
             
@@ -426,5 +401,26 @@
                 setInterval(updateCharts, 5000);
             </script>
     </div>      
+
+    <script>
+        $(document).ready(function() {
+                        var userName = localStorage.getItem('nombreUsuario');
+                        var userToken = localStorage.getItem('userToken');
+                        if (userName && userToken) {
+                            $("#join-banner").html('<p>Bienvenido, ' + userName + '</p>');
+                            $("#infobanner1, #infobanner2").hide();
+                            $("#linkPlantas, #linkPerfil, #linkLogout").show();
+                        } else {
+                            $("#linkPlantas, #linkPerfil, #linkLogout").hide();
+                        }
+                    });
+
+                    function logout() {
+                        localStorage.removeItem('userToken');
+                        localStorage.removeItem('nombreUsuario');
+                        alert("Sesión cerrada correctamente");
+                        window.location.href = '../index.html';
+                    }
+    </script>
 </body>
 </html>

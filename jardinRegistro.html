@@ -1,72 +1,118 @@
 <html>
-<!--Comentario prueba-->
 <head>
-    <title> Jardin </title>
+    <title>Registro de Jardín y Planta</title>
     <link rel="Stylesheet" href="./assets/css/registro.css" type="text/css">
     <meta type="author" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
-
     <main>
         <section class="contact_form">
-
             <section class="formulario">
-               
-                <h1> Casi terminamos,&iquest;como planeas tener tu Jardin?</h1>
-                <form action="./data/global-classes/clientes/addCliente.php" method="post">
-
+                <h1>Registra tu Jardín y Planta</h1>
+                <form id="jardinPlantaForm">
+                    <!-- Formulario para Jardín -->
                     <section>
-                        <label class="colocar_nombre">Ubicacion del Jardin:
+                        <label class="colocar_nombre">Nombre del Jardín:
                             <span class="obligatorio">*</span>
                         </label>
-                        <div id="garden-select">
-                            <select id="standard-select" required>
-                                <option value="patio">Patio</option>
-                                <option value="Dentro">Dentro del Hogar</option>
-                                <option value="Pared">Pared(Vertical)</option>
-                                <option value="Terraza">Terraza/Balcon</option>
-                            </select>
-                        </div>
+                        <input type="text" id="nombreJardin" name="nombreJardin" maxlength="50" placeholder="Nombre del Jardín" required>
                     </section>
 
                     <section>
-                        <label class="colocar_nombre">Planta a Cuidar:
+                        <label class="colocar_nombre">Ubicación del Jardín:
                             <span class="obligatorio">*</span>
                         </label>
-                        <div id="garden-select">
-                            <select id="standard-select" required>
-                                <optgroup label="Plantas Cosmeticas">
-                                    <option value="lirios">Lirios</option>
-                                    <option value="rosas">Rosas</option>
-                                    <option value="hortenesias">Hortenesias</option>
-                                    <option value="jazmin">Jazmin</option>
-                                    <option value="lirios">Lirios</option>
-                                </optgroup>
-                                <optgroup label="Cultivos Comestibles">
-                                    <option value="tomate">Tomates</option>
-                                    <option value="hierbabuena">Hierbabuena</option>
-                                    <option value="perejil">Perejil</option>
-                                    <option value="oregano">Oregano</option>
-                                    <option value="zanahorias">Zanahorias</option>
-                                </optgroup>
-                            </select>
-                        </div>
+                        <select id="ubicacionJardin" name="ubicacionJardin" required>
+                            <option value="patio">Patio</option>
+                            <option value="Dentro">Dentro del Hogar</option>
+                            <option value="Pared">Pared (Vertical)</option>
+                            <option value="Terraza">Terraza/Balcón</option>
+                        </select>
                     </section>
 
-                    <a href="./index.html" type="submit" value="Enviar" class="Registrarce">DA</a>
-            </section>
+                    <!-- Formulario para Planta -->
+                    <section>
+                        <label class="colocar_nombre">Nombre de la Planta:
+                            <span class="obligatorio">*</span>
+                        </label>
+                        <input type="text" id="nombrePlanta" name="nombrePlanta" maxlength="50" placeholder="Nombre de la Planta" required>
+                    </section>
 
-            <a href="./index.html">Cancelar</a>
+                    <section>
+                        <label class="colocar_nombre">Descripción de la Planta:
+                            <span class="obligatorio">*</span>
+                        </label>
+                        <input type="text" id="descripcionPlanta" name="descripcionPlanta" maxlength="100" placeholder="Descripción de la Planta" required>
+                    </section>
 
-            <section class="aviso">
-                <span class="obligatorio"> * </span>los campos son obligatorios.
+                    <button type="button" onclick="registrarJardinYPlanta()">Registrar</button>
+                </form>
+
+                <a href="./index.html">Cancelar</a>
+                <section class="aviso">
+                    <span class="obligatorio"> * </span>los campos son obligatorios.
+                </section>
             </section>
-            </form>
         </section>
     </main>
 
+    <script>
+        function registrarJardinYPlanta() {
+            var userId = localStorage.getItem('userId');
+            
+            if (!userId) {
+                alert("ID del usuario no encontrado.");
+                return;
+            }
+        
+            var jardin = {
+                id: "",
+                nombre: $("#nombreJardin").val(),
+                ubicacion: $("#ubicacionJardin").val(),
+                propietario: userId
+            };
+        
+            $.ajax({
+                url: 'https://localhost:44313/api/Jardines',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(jardin),
+                success: function(jardinResponse) {
+                    var jardinId = jardinResponse.id;
+                    var planta = {
+                        id: "",
+                        nombre: $("#nombrePlanta").val(),
+                        descripcion: $("#descripcionPlanta").val(),
+                        cantRiegoRequerido: 3,
+                        fechaPlantado: new Date().toISOString(),
+                        jardin: jardinId
+                    };
+        
+                    $.ajax({
+                        url: 'https://localhost:44313/api/Plantas',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(planta),
+                        success: function(plantaResponse) {
+                            alert("Registro exitoso");
+                            window.location.href = './index.html';
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            var errorMsg = `Error en el registro de planta:\n\nCódigo de Estado: ${jqXHR.status}\nDescripción: ${jqXHR.statusText}\nDetalles: ${jqXHR.responseText}`;
+                            console.error(errorMsg);
+                            alert(errorMsg);
+                        }
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    var errorMsg = `Error en el registro de jardín:\n\nCódigo de Estado: ${jqXHR.status}\nDescripción: ${jqXHR.statusText}\nDetalles: ${jqXHR.responseText}`;
+                    console.error(errorMsg);
+                    alert(errorMsg);
+                }
+            });
+        }
+    </script>
 </body>
-</section>
-
 </html>

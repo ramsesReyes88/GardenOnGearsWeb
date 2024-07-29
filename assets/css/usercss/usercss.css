@@ -27,3 +27,8 @@
     width: 230px;
     
 }
+
+.purchasesContainer{
+    position: relative;
+    margin-top:150px;
+}

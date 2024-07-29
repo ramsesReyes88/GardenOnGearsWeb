@@ -49,14 +49,19 @@
             </li>
         </ul>
 
+        
         <ul class="logout">
             <li>
-                <a href="../index.html">
+                <a href="#" onclick="logout()">
                     <i class="fa fa-power-off fa-2x"></i>
-                    <span class="nav-text">Salir</span>
+                    <span class="nav-text">
+                        Salir
+                    </span>
                 </a>
-            </li>
-        </ul>
+            </li>  
+        </ul> 
+
+
     </nav>
 
     <header id="menurapido"></header>
@@ -129,7 +134,16 @@
                 
             </div>
         </div>
+        
     </main>
+    <script>
+        function logout() {
+           
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('nombreUsuario');
+            window.location.href = '../index.html';
+        }
+    </script>
 </body>
 
 </html>

@@ -1,72 +1,95 @@
 <html>
-<!--Comentario prueba-->
 <head>
     <title> REGISTRO </title>
     <link rel="Stylesheet" href="./assets/css/registro.css" type="text/css">
     <meta type="author" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
-
-    <main>
-        <section class="contact_form">
-
-            <section class="formulario">
-                <h1>Registro</h1>
-              
-
-            
-
-
-                    <section>
-                        <label class="colocar_telefono">Nombre 
-                            <span class="obligatorio">*</span>
-                            <input type="text" name="txtNombreCont"  maxlength = "30" placeholder="Escribe aqui tu nombre" spellcheck="true" >
-                    </section>
-                    <section>
-                        <label class="colocar_telefono">Apellido Paterno 
-                            <span class="obligatorio">*</span>
-                            <input type="text" name="txtApPat" maxlength = "30" placeholder="Tu primer apellido"  spellcheck="true">
-
-                    </section>
-                    <section>
-                        <label class="colocar_telefono">Apellido Materno 
-                            <input type="text" name="txtApMat" maxlength = "30"  placeholder="Tu segundo apellido" spellcheck="true">
-
-                    </section>
-                    
-                    <section>
-                        <label class="colocar_telefono">Correo Del Contacto
-                            <span class="obligatorio">*</span>
-                            <input type="email" name="txtCorreo" maxlength = "30" placeholder="Escribe correo del contacto" >
-                    </section>
-
-                    <section>
-                        <label class="colocar_nombre">Nombre de Usuario
-                            <span class="obligatorio">*</span>
-                        </label>
-                        <input type="text" name="txtnick" maxlength="20" placeholder="Tu apodo para tu perfil">
-                    </section>
-
-                    <section>
-                        <label class="colocar_contraseña">Contrasena
-                            <span class="obligatorio">*</span>
-                            <input type="password" name="txtpass" minlength="8" maxlength="20" placeholder="Escribe tu contrasena">
-                    </section>
-
-                    <a href="./jardinRegistro.html" type="submit" value="Enviar" class="Registrarce"></a>
-            </section>
-
+<main>
+    <section class="contact_form">
+        <section class="formulario">
+            <h1>Registro</h1>
+            <form id="registroForm">
+                <section>
+                    <label class="colocar_telefono">Primer Nombre  
+                        <span class="obligatorio">*</span>
+                        <input type="text" name="nombre" maxlength="30" placeholder="Escribe aqui tu nombre" spellcheck="true">
+                </section>
+                <section>
+                    <label class="colocar_telefono">Apellido Paterno 
+                        <span class="obligatorio">*</span>
+                        <input type="text" name="apellidoPaterno" maxlength="30" placeholder="Tu primer apellido" spellcheck="true">
+                </section>
+                <section>
+                    <label class="colocar_telefono">Apellido Materno 
+                        <input type="text" name="apellidoMaterno" maxlength="30" placeholder="Tu segundo apellido" spellcheck="true">
+                </section>
+                <section>
+                    <label class="colocar_telefono">Correo Del Contacto
+                        <span class="obligatorio">*</span>
+                        <input type="email" name="correo" maxlength="30" placeholder="Escribe correo del contacto">
+                </section>
+                <section>
+                    <label class="colocar_nombre">Nombre de Usuario
+                        <span class="obligatorio">*</span>
+                    </label>
+                    <input type="text" name="nombreUsuario" maxlength="20" placeholder="Tu apodo para tu perfil">
+                </section>
+                <section>
+                    <label class="colocar_contraseña">Contraseña
+                        <span class="obligatorio">*</span>
+                        <input type="password" name="contrasena" minlength="8" maxlength="20" placeholder="Escribe tu contrasena">
+                </section>
+                <button type="button" onclick="registrarUsuario()">Registrar</button>
+            </form>
             <a href="./index.html">Cancelar</a>
-
             <section class="aviso">
                 <span class="obligatorio"> * </span>los campos son obligatorios.
             </section>
-            </form>
         </section>
-    </main>
+    </section>
+</main>
+
+
+<script>
+    function registrarUsuario() {
+        var usuario = {
+            id: "",  // Inicialmente vacío
+            nombreUsuario: $("input[name='nombreUsuario']").val(),
+            nombreCompleto: {
+                nombre: $("input[name='nombre']").val(),
+                apPaterno: $("input[name='apellidoPaterno']").val(),
+                apMaterno: $("input[name='apellidoMaterno']").val()
+            },
+            correo: $("input[name='correo']").val(),
+            contrasena: $("input[name='contrasena']").val(),
+            tipoUsuario: "C", 
+            fechaRegistro: new Date().toISOString()
+        };
+
+        $.ajax({
+            url: 'https://localhost:44313/api/Usuarios',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(usuario),
+            success: function(response) {
+                if (response && response.id) {
+                    localStorage.setItem('userId', response.id);
+                    alert("Usuario registrado exitosamente");
+                    window.location.href = './jardinRegistro.html?userId=' + response.id;
+                } else {
+                    alert("Error: ID del usuario no recibido.");
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error en el registro del usuario:", jqXHR.responseText);
+                alert("Error en el registro del usuario: " + jqXHR.responseText);
+            }
+        });
+    }
+</script>
 
 </body>
-</section>
-
 </html>

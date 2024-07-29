@@ -86,19 +86,23 @@ body, ul, li, p, a, label, input, div {
   text-align: center;
 }
 
-.fa-search{
-  right: 110px;
-}
 
 .fa-cart-arrow-down{
-  right: 80px;
+  right: 150px;
 }
 
 .fa-user{
+  right: 100px;
+}
+
+.fa-sign-out-alt{
   right: 50px;
 }
 
-.fa-search,.fa-cart-arrow-down,.fa-user{
+
+
+
+.fa-search,.fa-cart-arrow-down,.fa-user,.fa-sign-out-alt{
   z-index: 1;
   position: fixed;
   align-items: end;

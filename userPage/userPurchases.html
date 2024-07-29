@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Purchases</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/templatemo.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <a class="navbar-brand text-success logo h1 align-self-center" href="../index.html">
+            <img class = "gog-logo" src="../assets/img/apple-icon.png">   
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+                <div class="flex-fill">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../shop.html">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="linkPlantas" class="nav-link" href="./userPage/userPlants.html">Plantas</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar align-self-center d-flex">
+                    <a id="linkLogout" class="nav-icon  text-decoration-none" href="#" onclick="logout()">
+                        <i class="fa fa-fw fa-sign-out-alt text-dark mr-2"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none" href="../carrito.html">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-2"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="../profile.html">
+                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class = "purchasesContainer">
+        <h2>Mis Compras</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th>Pedido</th>
+                </tr>
+            </thead>
+            <tbody id="pagoTableBody">
+                <!-- Los datos se llenarán con JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            const userId = localStorage.getItem('userToken');
+            if (!userId) {
+                alert('Debes iniciar sesión para ver tus compras.');
+                window.location.href = '../index.html';
+            }
+            function loadUserPayments() {
+                $.ajax({
+                    url: 'https://localhost:44313/api/Pagos', // Cambia a tu URL API
+                    method: 'GET',
+                    success: function(pagos) {
+                        const tableBody = $('#pagoTableBody');
+                        tableBody.empty();
+                        pagos.forEach(pago => {
+                            if (pago.usuario === userId) {
+                                tableBody.append(`
+                                    <tr>
+                                        <td>${pago.Id}</td>
+                                        <td>${new Date(pago.fecha).toLocaleDateString()}</td>
+                                        <td>${pago.monto}</td>
+                                        <td>${pago.pedido}</td>
+                                    </tr>
+                                `);
+                            }
+                        });
+                    },
+                    error: function() {
+                        alert('Error al cargar los pagos.');
+                    }
+                });
+            }
+
+            loadUserPayments();
+        });
+    </script>
+</body>
+</html>

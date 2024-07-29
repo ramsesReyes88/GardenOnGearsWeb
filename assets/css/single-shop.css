@@ -1,0 +1,16 @@
+.product-details {
+    margin-top: 100px;
+    background-color: rgb(255, 255, 255);
+}
+.product-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.product-info h1, .product-info h2, .product-info p {
+    margin-bottom: 15px;
+}
+.btn-add-to-cart {
+    margin-top: 20px;
+}
