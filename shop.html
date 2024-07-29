@@ -42,20 +42,19 @@
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-
-                    <a class="nav-icon position-relative text-decoration-none" href="./carrito.html">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                    <a id="linkLogout" class="nav-icon  text-decoration-none" href="#" onclick="logout()">
+                        <i class="fa fa-fw fa-sign-out-alt text-dark mr-2"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none" href="./carrito.html">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-2"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="profile.html">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a id="linkLogout" class="nav-icon position-relative text-decoration-none" href="#" onclick="logout()">
-                        <i class="fa fa-fw fa-sign-out-alt text-dark mr-4"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
-                    </a>
-                   
+                    
                 </div>
             </div>
 
@@ -175,9 +174,9 @@
                         if (userName && userToken) {
                             $("#join-banner").html('<p>Bienvenido, ' + userName + '</p>');
                             $("#infobanner1, #infobanner2").hide();
-                            $("#linkPlantas, #linkPerfil, #linkLogout").show();
+                            $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").show();
                         } else {
-                            $("#linkPlantas, #linkPerfil, #linkLogout").hide();
+                            $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").hide();
                         }
                     });
 

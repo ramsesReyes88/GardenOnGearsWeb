@@ -1,11 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Registro de Jardín y Planta</title>
-    <link rel="Stylesheet" href="./assets/css/registro.css" type="text/css">
-    <meta type="author" />
+    <link rel="stylesheet" href="./assets/css/registro.css" type="text/css">
+    <meta name="author" content=""/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-
 <body>
     <main>
         <section class="contact_form">
@@ -47,10 +48,9 @@
                         <input type="text" id="descripcionPlanta" name="descripcionPlanta" maxlength="100" placeholder="Descripción de la Planta" required>
                     </section>
 
-                    <button type="button" onclick="registrarJardinYPlanta()">Registrar</button>
+                    <button class="LoginButton" type="submit">Registrar</button>
                 </form>
-
-                <a href="./index.html">Cancelar</a>
+                <button class="LoginButton" onclick="window.location.href='./index.html'">Cancelar</button>
                 <section class="aviso">
                     <span class="obligatorio"> * </span>los campos son obligatorios.
                 </section>
@@ -59,6 +59,18 @@
     </main>
 
     <script>
+        $(document).ready(function() {
+            $('#jardinPlantaForm').on('submit', function(event) {
+                event.preventDefault();
+
+                if (this.checkValidity()) {
+                    registrarJardinYPlanta();
+                } else {
+                    alert("Por favor, completa todos los campos obligatorios.");
+                }
+            });
+        });
+
         function registrarJardinYPlanta() {
             var userId = localStorage.getItem('userId');
             

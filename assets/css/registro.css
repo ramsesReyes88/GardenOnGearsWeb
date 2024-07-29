@@ -134,22 +134,7 @@ main{
     
   }
   
-  a{
-    background-color: #fbfbfb;
-    width: 408px;
-    height: 40px;
-    border-radius: 5px;
-    border-style: solid;
-    border-width: 1px;
-    margin-top: 10px;
-    padding-left: 10px;
-    margin-bottom: 20px;
-    display: block;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    
-  }
+
 
   .garden-select{
     appearance: none;
@@ -187,5 +172,26 @@ main{
   top: 55%;
 }
 
- 
+.LoginButton{
+  background-color: #fbfbfb;
+  width: 408px;
+  height: 40px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  margin-top: 10px;
+  padding-left: 10px;
+  margin-bottom: 20px;
+  display: block;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.4s;
+} 
+
+.LoginButton:hover{
+  background-color:darkseagreen;
+}
+
   

@@ -1,11 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <title> REGISTRO </title>
-    <link rel="Stylesheet" href="./assets/css/registro.css" type="text/css">
-    <meta type="author" />
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="./assets/css/registro.css" type="text/css">
+    <meta name="author" content=""/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-
 <body>
 <main>
     <section class="contact_form">
@@ -13,50 +14,65 @@
             <h1>Registro</h1>
             <form id="registroForm">
                 <section>
-                    <label class="colocar_telefono">Primer Nombre  
+                    <label class="colocar_telefono">Primer Nombre
                         <span class="obligatorio">*</span>
-                        <input type="text" name="nombre" maxlength="30" placeholder="Escribe aqui tu nombre" spellcheck="true">
+                        <input type="text" name="nombre" maxlength="30" placeholder="Escribe aqui tu nombre" spellcheck="true" required>
+                    </label>
                 </section>
                 <section>
-                    <label class="colocar_telefono">Apellido Paterno 
+                    <label class="colocar_telefono">Apellido Paterno
                         <span class="obligatorio">*</span>
-                        <input type="text" name="apellidoPaterno" maxlength="30" placeholder="Tu primer apellido" spellcheck="true">
+                        <input type="text" name="apellidoPaterno" maxlength="30" placeholder="Tu primer apellido" spellcheck="true" required>
+                    </label>
                 </section>
                 <section>
-                    <label class="colocar_telefono">Apellido Materno 
+                    <label class="colocar_telefono">Apellido Materno
                         <input type="text" name="apellidoMaterno" maxlength="30" placeholder="Tu segundo apellido" spellcheck="true">
+                    </label>
                 </section>
                 <section>
                     <label class="colocar_telefono">Correo Del Contacto
                         <span class="obligatorio">*</span>
-                        <input type="email" name="correo" maxlength="30" placeholder="Escribe correo del contacto">
+                        <input type="email" name="correo" maxlength="30" placeholder="Escribe correo del contacto" required>
+                    </label>
                 </section>
                 <section>
                     <label class="colocar_nombre">Nombre de Usuario
                         <span class="obligatorio">*</span>
                     </label>
-                    <input type="text" name="nombreUsuario" maxlength="20" placeholder="Tu apodo para tu perfil">
+                    <input type="text" name="nombreUsuario" maxlength="20" placeholder="Tu apodo para tu perfil" required>
                 </section>
                 <section>
-                    <label class="colocar_contraseña">Contraseña
+                    <label class="colocar_contrasena">Contrase&ntilde;a
                         <span class="obligatorio">*</span>
-                        <input type="password" name="contrasena" minlength="8" maxlength="20" placeholder="Escribe tu contrasena">
+                        <input type="password" name="contrasena" minlength="8" maxlength="20" placeholder="Escribe tu contrase&ntilde;a" required>
+                    </label>
                 </section>
-                <button type="button" onclick="registrarUsuario()">Registrar</button>
+                <button class="LoginButton" type="submit">Registrar</button>
             </form>
-            <a href="./index.html">Cancelar</a>
+            <button class="LoginButton" onclick="window.location.href='./index.html'">Cancelar</button>
             <section class="aviso">
                 <span class="obligatorio"> * </span>los campos son obligatorios.
             </section>
         </section>
     </section>
 </main>
-
-
 <script>
+    $(document).ready(function() {
+        $('#registroForm').on('submit', function(event) {
+            event.preventDefault();
+
+            if (this.checkValidity()) {
+                registrarUsuario();
+            } else {
+                alert("Por favor, completa todos los campos obligatorios.");
+            }
+        });
+    });
+
     function registrarUsuario() {
         var usuario = {
-            id: "",  // Inicialmente vacío
+            id: "", 
             nombreUsuario: $("input[name='nombreUsuario']").val(),
             nombreCompleto: {
                 nombre: $("input[name='nombre']").val(),
@@ -90,6 +106,5 @@
         });
     }
 </script>
-
 </body>
 </html>
