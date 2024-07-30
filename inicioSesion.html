@@ -25,9 +25,9 @@
                         </label>
                         <input type="password" name="contrasena" minlength="8" maxlength="20" placeholder="Escribe tu contraseña" required>
                     </section>
-                    <button type="button" onclick="iniciarSesion()">Iniciar Sesión</button>
+                    <button id="loginButton" class="LoginButton" type="button">Iniciar Sesión</button>
                 </form>
-                <a href="./index.html">Cancelar</a>
+                <button class="LoginButton" onclick="window.location.href='./index.html'">Cancelar</button>
                 <section class="aviso">
                     <span class="obligatorio"> * </span> Los campos son obligatorios.
                 </section>
@@ -36,37 +36,39 @@
     </main>
 
     <script>
-        function iniciarSesion() {
-            var nombreUsuario = $("input[name='nombreUsuario']").val();
-            var contrasena = $("input[name='contrasena']").val();
+        $(document).ready(function() {
+            $("#loginButton").on("click", function() {
+                var nombreUsuario = $("input[name='nombreUsuario']").val();
+                var contrasena = $("input[name='contrasena']").val();
 
-            $.ajax({
-                url: 'https://localhost:44313/api/Usuarios', // Endpoint de la colección de usuarios
-                type: 'GET',
-                success: function(response) {
-                    // Encuentra el usuario que coincide con el nombre de usuario
-                    var usuario = response.find(user => user.nombreUsuario === nombreUsuario);
+                $.ajax({
+                    url: 'https://localhost:44313/api/Usuarios', // Endpoint de la colección de usuarios
+                    type: 'GET',
+                    success: function(response) {
+                        // Encuentra el usuario que coincide con el nombre de usuario
+                        var usuario = response.find(user => user.nombreUsuario === nombreUsuario);
 
-                    if (usuario) {
-                        // Verifica la contraseña
-                        if (usuario.contrasena === contrasena) {
-                            localStorage.setItem('userToken', usuario.id); // Guarda el ID del usuario como token
-                            localStorage.setItem('nombreUsuario', usuario.nombreUsuario); // Guarda el nombre de usuario
-                            alert("Inicio de sesión exitoso");
-                            window.location.href = './index.html'; // Redirige al perfil o página principal
+                        if (usuario) {
+                            // Verifica la contraseña
+                            if (usuario.contrasena === contrasena) {
+                                localStorage.setItem('userToken', usuario.id); 
+                                localStorage.setItem('nombreUsuario', usuario.nombreUsuario); 
+
+                                window.location.href = './index.html'; 
+                            } else {
+                                alert("Contraseña incorrecta.");
+                            }
                         } else {
-                            alert("Contraseña incorrecta.");
+                            alert("Nombre de usuario no encontrado.");
                         }
-                    } else {
-                        alert("Nombre de usuario no encontrado.");
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Error en el inicio de sesión:", jqXHR.responseText);
+                        alert("Error en el inicio de sesión: " + jqXHR.responseText);
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error("Error en el inicio de sesión:", jqXHR.responseText);
-                    alert("Error en el inicio de sesión: " + jqXHR.responseText);
-                }
+                });
             });
-        }
+        });
     </script>
 </body>
 </html>

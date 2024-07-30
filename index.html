@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>GardenOnGears PlantCare</title>
     <meta charset="utf-8">
@@ -17,35 +16,26 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <link rel="stylesheet" href="assets/css/custom.css">
-    
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
-    
-<!--
-    
-
--->
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Start Top Nav -->
-    
-
-
-    <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
-
             <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
-            <img class = "gog-logo" src="assets/img/apple-icon.png">   
+                <img class="gog-logo" src="assets/img/apple-icon.png">   
             </a>
-
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
@@ -56,48 +46,27 @@
                             <a class="nav-link" href="shop.html">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a id="linkPlantas" class="nav-link" href="./userPage/userPlants.html">Plantas</a>
+                            <a id="linkPlantas" class="nav-link hidden" href="./userPage/userPlants.html">Plantas</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <a id="linkLogout" class="nav-icon  text-decoration-none" href="#" onclick="logout()">
+                    <a id="linkLogout" class="nav-icon text-decoration-none hidden" href="#" onclick="logout()">
                         <i class="fa fa-fw fa-sign-out-alt text-dark mr-2"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none" href="./carrito.html">
+                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none hidden" href="./carrito.html">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-2"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="profile.html">
+                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none hidden" href="profile.html">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    
                 </div>
             </div>
-
         </div>
     </nav>
-    <!-- Close Header -->
-
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
 
     <div id="join-banner">
         <br>
@@ -107,7 +76,6 @@
                 <p>¿Desea registrarse?</p>
                 <a id="btn-registro" href="registro.html">Crea una cuenta</a>
             </div>
-            
             <div class="join-option">
                 <p>¿O prefiere Iniciar Sesion?</p>
                 <a id="btn-registro" href="inicioSesion.html">Iniciar Sesion</a>
@@ -143,27 +111,19 @@
             if (userName && userToken) {
                 $("#join-banner").html('<p>Bienvenido, ' + userName + '</p>');
                 $("#infobanner1, #infobanner2").hide();
-                $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").show();
+                $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").removeClass('hidden');
             } else {
-                $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").hide();
+                $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").addClass('hidden');
             }
         });
 
         function logout() {
             localStorage.removeItem('userToken');
             localStorage.removeItem('nombreUsuario');
-            localStorage.removeItem('cart'); 
+            localStorage.removeItem('cart');
             alert("Sesión cerrada correctamente");
             window.location.href = './index.html';
         }
     </script>
-
-    <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
-    <!-- End Script -->
 </body>
 </html>

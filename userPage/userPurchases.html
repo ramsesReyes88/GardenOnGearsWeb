@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../assets/css/usercss/usercss.css">
     
 </head>
 <body>
@@ -59,24 +60,22 @@
         </div>
     </nav>
 
-    <div class = "purchasesContainer">
-        <h2>Mis Compras</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Fecha</th>
-                    <th>Monto</th>
-                    <th>Pedido</th>
-                </tr>
-            </thead>
-            <tbody id="pagoTableBody">
-                <!-- Los datos se llenarán con JavaScript -->
-            </tbody>
-        </table>
-    </div>
+    <main>
+        <div class="purchasesContainer">
+            <h2>Mis Compras</h2>
+            <div class="cards-container" id="cardsContainer">
+                <!-- Las tarjetas se llenarán con JavaScript -->
+            </div>
+        </div>
+    </main>
 
     <script>
+
+        function logout() {
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('nombreUsuario');
+            window.location.href = '../index.html';
+        }
         $(document).ready(function() {
             const userId = localStorage.getItem('userToken');
             if (!userId) {
@@ -88,17 +87,20 @@
                     url: 'https://localhost:44313/api/Pagos', // Cambia a tu URL API
                     method: 'GET',
                     success: function(pagos) {
-                        const tableBody = $('#pagoTableBody');
-                        tableBody.empty();
+                        const cardsContainer = $('#cardsContainer');
+                        cardsContainer.empty();
                         pagos.forEach(pago => {
                             if (pago.usuario === userId) {
-                                tableBody.append(`
-                                    <tr>
-                                        <td>${pago.Id}</td>
-                                        <td>${new Date(pago.fecha).toLocaleDateString()}</td>
-                                        <td>${pago.monto}</td>
-                                        <td>${pago.pedido}</td>
-                                    </tr>
+                                cardsContainer.append(`
+                                    <div class="card">
+                                        <p><strong>ID del Pago: ${pago.id}</p>
+                                            <br>
+                                        <p><strong>Fecha(MM/DD/YY): ${new Date(pago.fecha).toLocaleDateString()}</p>
+
+                                        <p><strong>Monto: MXN ${pago.monto}</p>
+                                            <br>
+                                        <p><strong>ID del Pedido: ${pago.pedido}</p
+                                    </div>
                                 `);
                             }
                         });

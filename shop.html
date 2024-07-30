@@ -37,20 +37,20 @@
                             <a class="nav-link" href="shop.html">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a id="linkPlantas" class="nav-link" href="./userPage/userPlants.html">Plantas</a>
+                            <a id="linkPlantas" class="nav-link hidden" href="./userPage/userPlants.html">Plantas</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <a id="linkLogout" class="nav-icon  text-decoration-none" href="#" onclick="logout()">
+                    <a id="linkLogout" class="nav-icon  text-decoration-none hidden" href="#" onclick="logout()">
                         <i class="fa fa-fw fa-sign-out-alt text-dark mr-2"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none" href="./carrito.html">
+                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none hidden" href="./carrito.html">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-2"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="profile.html">
+                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none hidden" href="profile.html">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
@@ -62,27 +62,6 @@
     </nav>
     <!-- Close Header -->
 
-    <!-- Modal -->
-
-
-    <!-- Close Header -->
-
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <!-- Start Content -->
     <div class="container py-5">
@@ -172,11 +151,9 @@
                         var userName = localStorage.getItem('nombreUsuario');
                         var userToken = localStorage.getItem('userToken');
                         if (userName && userToken) {
-                            $("#join-banner").html('<p>Bienvenido, ' + userName + '</p>');
-                            $("#infobanner1, #infobanner2").hide();
-                            $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").show();
+                            $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").removeClass('hidden');
                         } else {
-                            $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").hide();
+                            $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").addClass('hidden');
                         }
                     });
 

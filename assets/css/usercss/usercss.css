@@ -30,5 +30,50 @@
 
 .purchasesContainer{
     position: relative;
-    margin-top:150px;
+
 }
+
+
+.card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 400px;
+    transition: transform 0.2s;
+    margin-top: 60px;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card p {
+    margin: 10px 0;
+    color: #333;
+}
+
+strong {
+    color: #383939;
+    text-align: center;
+}
+
+.purchasesContainer {
+    padding: 20px;
+}
+
+.table {
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.navbar-nav .nav-item {
+    margin-right: 20px;
+}
+
+h2{
+    margin-top: 100px;
+    text-align: center;
+}
+

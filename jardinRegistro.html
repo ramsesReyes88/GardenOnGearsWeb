@@ -50,7 +50,7 @@
 
                     <button class="LoginButton" type="submit">Registrar</button>
                 </form>
-                <button class="LoginButton" onclick="window.location.href='./index.html'">Cancelar</button>
+                <button class="LoginButton" id="cancelButton">Cancelar</button>
                 <section class="aviso">
                     <span class="obligatorio"> * </span>los campos son obligatorios.
                 </section>
@@ -68,6 +68,28 @@
                 } else {
                     alert("Por favor, completa todos los campos obligatorios.");
                 }
+            });
+            $('#cancelButton').on('click', function() {
+            var userId = localStorage.getItem('userId');
+            
+            if (userId) {
+                $.ajax({
+                    url: 'https://localhost:44313/api/Usuarios/' + userId,
+                    type: 'DELETE',
+                    success: function() {
+                        localStorage.removeItem('userId');
+                        alert("Registro cancelado, usuario eliminado.");
+                        window.location.href = './index.html';
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        var errorMsg = `Error al eliminar el usuario:\n\nCódigo de Estado: ${jqXHR.status}\nDescripción: ${jqXHR.statusText}\nDetalles: ${jqXHR.responseText}`;
+                        console.error(errorMsg);
+                        alert(errorMsg);
+                    }
+                });
+            } else {
+                window.location.href = './index.html';
+            }
             });
         });
 
