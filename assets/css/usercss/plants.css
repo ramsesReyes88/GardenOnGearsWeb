@@ -1,0 +1,52 @@
+.pic-container {
+    position: relative;
+    width: 250px;
+    height: 150px;
+    overflow: hidden;
+    border: 2px solid #ddd;
+}
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.changePicture {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.pic-container:hover .changePicture {
+    opacity: 1;
+}
+.iconUpload {
+    font-size: 15px;
+    cursor: pointer;
+}
+.upload-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#uploadImageBtn{
+    transform: translate(-30px, -80px);
+   
+    float: right;
+}
+
+.plusContainer{
+    height: 20px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    transform: translate(100px,-600px);
+    align-items: center;
+}

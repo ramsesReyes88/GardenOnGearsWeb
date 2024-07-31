@@ -73,6 +73,6 @@
     justify-content: space-between;
     align-items: center;
     position: relative; 
-    transform: translate(0px,-150px);
+    transform: translate(-0px,-150px);
     gap: 400px;
 }

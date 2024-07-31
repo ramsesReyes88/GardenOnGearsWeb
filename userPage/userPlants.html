@@ -1,106 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>GardenOnGears PlantCare</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <script src="/mygauge/justgage/raphael-2.1.4.min.js"></script>
     <script src="/mygauge/justgage/justgage.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></link>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
+    <script src="https://code.highcharts.com/highcharts.js"></script> 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
     <script src="http://code.highcharts.com/stock/highstock.js"></script>
     <script src="http://code.highcharts.com/stock/modules/exporting.js"></script> 
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/templatemo.css">
     <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/usercss/plants.css">
     <link rel="stylesheet" href="../assets/css/usercss/usercss.css">
     <link rel="stylesheet" href="../assets/css/usercss/chartsStyles.css">
-    <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+
 </head>
-
 <body>
-    <!-- Start Top Nav -->
-    
-
-
-    <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
-
             <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
-            <img class = "gog-logo" src="../assets/img/apple-icon.png">   
+                <img class="gog-logo" src="../assets/img/apple-icon.png">   
             </a>
-
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="../index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../shop.html">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="linkPlantas" class="nav-link" href="./userPlants.html">Plantas</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../shop.html">Shop</a></li>
+                        <li class="nav-item"><a id="linkPlantas" class="nav-link" href="./userPlants.html">Plantas</a></li>
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
                     <a id="linkLogout" class="nav-icon position-relative text-decoration-none" href="#" onclick="logout()">
                         <i class="fa fa-fw fa-sign-out-alt text-dark mr-4"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-
                     <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="../profile.html">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" href="../carrito.html">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="../profile.html">
-                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
-                    </a>
-                    
-                   
                 </div>
             </div>
-
         </div>
     </nav>
-    <!-- Close Header -->
 
-   
+    
+    
+
     <div class="cards-container">
         <div class="plant-card">
-            
-            <p><strong></strong><img class ="plantImg" src="../assets/img/Hierbabuena_0611_Revised.jpg"></p>
-            <p><strong>Nombre:</strong> Chlorophytum comosum</p>
+            <div class="upload-container">
+                <div class="pic-container">
+                    <img id="plantImage" class="profile-img">
+                    <div class="changePicture">
+                        <input type="file" id="plantImageUpload" accept="image/*" style="display:none">
+                        <i class="iconProfile fa fa-folder-plus" onclick="document.getElementById('plantImageUpload').click();"></i>
+                    </div>
+                    
+                </div>
+            </div>
+            <span id="uploadImageBtn" cursor = "pointer">
+                <i class="iconUpload fa fa-upload">
+                    Upload Image
+                </i>
+            </span>
             <br>
-            <p><strong>Descripcion de Cuidados:</strong> Necesita alta gama de sol, poca temperatura y un buen aire</p>
-            <br>
-            <p><strong>Cantidad Riego Requerido:</strong> 2 veces al Dia</p>
-            <br>
-            <p><strong>Fecha Plantado:</strong> 04/09/2004</p>
-           
-           
+            <h3>Planta:</h3>
+            <p><strong>Nombre:</strong> <span id="plantName"></span></p>
+            <p><strong>Descripcion de Cuidados:</strong> <span id="plantDescription"></span></p>
+            <p><strong>Cantidad Riego Requerido:</strong> <span id="plantWatering"></span></p>
+            <p><strong>Fecha Plantado:</strong> <span id="plantDate"></span></p>
+
+            <h3>Jardín:</h3>
+            <p><strong>Nombre del Jardín:</strong> <span id="gardenName"></span></p>
+            <p><strong>Ubicación del Jardín:</strong> <span id="gardenLocation"></span></p>
         </div>
     </div>
+
+
+
+
+        
 
     <div class = "dataContainer">
         <h3 align = "center">Tus datos registrados</h3>
@@ -400,27 +392,101 @@
                 updateCharts();
                 setInterval(updateCharts, 5000);
             </script>
-    </div>      
+    </div>
 
     <script>
         $(document).ready(function() {
-                        var userName = localStorage.getItem('nombreUsuario');
-                        var userToken = localStorage.getItem('userToken');
-                        if (userName && userToken) {
-                            $("#join-banner").html('<p>Bienvenido, ' + userName + '</p>');
-                            $("#infobanner1, #infobanner2").hide();
-                            $("#linkPlantas, #linkPerfil, #linkLogout").show();
+            var userToken = localStorage.getItem('userToken');
+            if (userToken) {
+                $.ajax({
+                    url: 'https://localhost:44313/api/Jardines/usuario/' + userToken,
+                    type: 'GET',
+                    success: function(jardinesResponse) {
+                        if (jardinesResponse && jardinesResponse.length > 0) {
+                            var jardinesIds = jardinesResponse.map(jardin => jardin.id);
+                            var jardin = jardinesResponse[0]; // Assuming the first garden is the relevant one
+
+                            // Display garden information
+                            $('#gardenName').text(jardin.nombre);
+                            $('#gardenLocation').text(jardin.ubicacion);
+
+                            $.ajax({
+                                url: 'https://localhost:44313/api/Plantas/jardines',
+                                type: 'POST',
+                                contentType: 'application/json',
+                                data: JSON.stringify(jardinesIds),
+                                success: function(plantasResponse) {
+                                    if (plantasResponse && plantasResponse.length > 0) {
+                                        var planta = plantasResponse[0]; // Display the first plant as an example
+                                        $('#plantName').text(planta.nombre);
+                                        $('#plantDescription').text(planta.descripcion);
+                                        $('#plantWatering').text(planta.cantRiegoRequerido + ' veces al Día');
+                                        $('#plantDate').text(new Date(planta.fechaPlantado).toLocaleDateString());
+
+                                        // Display image if exists
+                                        if (planta.foto) {
+                                            $('#plantImage').attr('src', 'data:image/jpeg;base64,' + planta.foto);
+                                        }
+
+                                        // Set the plantId for the image upload
+                                        $('#uploadImageBtn').data('plant-id', planta.id);
+                                    }
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    console.error("Error al obtener información de las plantas:", jqXHR.responseText);
+                                    alert("Error al obtener información de las plantas: " + jqXHR.responseText);
+                                }
+                            });
                         } else {
-                            $("#linkPlantas, #linkPerfil, #linkLogout").hide();
+                            alert("No se encontró información de los jardines.");
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Error al obtener información de los jardines:", jqXHR.responseText);
+                        alert("Error al obtener información de los jardines: " + jqXHR.responseText);
+                    }
+                });
+            } else {
+                alert("Usuario no autenticado.");
+                window.location.href = '../index.html';
+            }
+
+            $('#uploadImageBtn').click(function() {
+                var fileInput = $('#plantImageUpload')[0];
+                var plantId = $(this).data('plant-id');
+                if (fileInput.files.length > 0 && plantId) {
+                    var file = fileInput.files[0];
+                    var formData = new FormData();
+                    formData.append('image', file);
+                    formData.append('plantId', plantId);
+
+                    $.ajax({
+                        url: 'https://localhost:44313/api/Plantas/uploadImage',
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            alert("Imagen subida correctamente");
+                            $('#plantImage').attr('src', 'data:image/jpeg;base64,' + response.image);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.error("Error al subir la imagen:", jqXHR.responseText);
+                            alert("Error al subir la imagen: " + jqXHR.responseText);
                         }
                     });
+                } else {
+                    alert("No se ha seleccionado una imagen o la planta no está definida.");
+                }
+            });
+        });
 
-                    function logout() {
-                        localStorage.removeItem('userToken');
-                        localStorage.removeItem('nombreUsuario');
-                        alert("Sesión cerrada correctamente");
-                        window.location.href = '../index.html';
-                    }
+        function logout() {
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('nombreUsuario');
+            alert("Sesión cerrada correctamente");
+            window.location.href = '../index.html';
+        }
     </script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    text-align: center;
 }
 
 .plant-card {
@@ -17,6 +18,8 @@
     width: 100%;
     transition: transform 0.2s;
     margin-top: 150px;
+    text-align: center;
+    align-items: center;
 }
 
 .plantImg{

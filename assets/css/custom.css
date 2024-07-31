@@ -126,3 +126,8 @@ h4{
 .hidden {
     display: none;
 }
+
+#uploadImageBtn{
+    transform: translate(0px,-50px);
+    cursor: pointer;
+}

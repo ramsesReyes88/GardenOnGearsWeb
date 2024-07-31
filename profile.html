@@ -78,9 +78,14 @@
                 <img id="profileImage" class="profile-img" src="assets/img/noPic.png">
                 <div class="changePicture">
                     <input type="file" id="uploadImage" accept="image/*" style="display:none">
-                    <i class="iconProfile fa fa-folder-plus"></i>
+                    <i class="iconProfile fa fa-folder-plus" onclick="document.getElementById('uploadImage').click();"></i>
                 </div>
             </div>
+            <span id="uploadImageBtn" cursor = "pointer">
+                <i class="iconUpload fa fa-upload">
+                    Upload Image
+                </i>
+            </span>
             <div class="pressables">
                 <a href="./userPage/userPlants.html">
                     <i class="fa fa-leaf"> Revisa tus Plantas</i>
@@ -128,28 +133,6 @@
                 return;
             }
     
-            // Manejador de clic para cambiar imagen
-            $('.changePicture').on('click', function () {
-                let fileInput = document.getElementById('uploadImage');
-                fileInput.click();
-            });
-    
-            // Manejador de cambio para el input de archivo
-            $('#uploadImage').on('change', function (event) {
-                var file = event.target.files[0];
-                if (file) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        var newImage = e.target.result;
-                        $('#profileImage').attr('src', newImage);
-                        localStorage.setItem('profileImage_' + userId, newImage);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            
-            });
-           
-    
             $.ajax({
                 url: 'https://localhost:44313/api/Usuarios/' + userId,
                 type: 'GET',
@@ -157,6 +140,11 @@
                     $('#nombreUsuario').text(usuario.nombreUsuario);
                     $('#nombreCompleto').text(`${usuario.nombreCompleto.nombre} ${usuario.nombreCompleto.apPaterno} ${usuario.nombreCompleto.apMaterno}`);
                     $('#correo').text(usuario.correo);
+                    if (usuario.foto) {
+                        $('#profileImage').attr('src', 'data:image/jpeg;base64,' + usuario.foto);
+                    }
+                    // Set the plantId for the image upload
+                    $('#uploadImageBtn').data('user-id', usuario.id);
     
                     $.ajax({
                         url: 'https://localhost:44313/api/Jardines/usuario/' + userId,
@@ -191,6 +179,34 @@
                     console.error("Error al obtener el usuario:", jqXHR.responseText);
                 }
             });
+            $('#uploadImageBtn').click(function() {
+            var fileInput = $('#uploadImage')[0];
+            var userId = $(this).data('user-id');
+            if (fileInput.files.length > 0 && userId) {
+                var file = fileInput.files[0];
+                var formData = new FormData();
+                formData.append('image', file);
+                formData.append('usuarioId', userId);  
+
+                $.ajax({
+                    url: 'https://localhost:44313/api/Usuarios/uploadImage',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        alert("Imagen subida correctamente");
+                        $('#profileImage').attr('src', 'data:image/jpeg;base64,' + response.image);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Error al subir la imagen:", jqXHR.responseText);
+                        alert("Error al subir la imagen: " + jqXHR.responseText);
+                    }
+                });
+            } else {
+                alert("No se ha seleccionado una imagen.");
+            }
+        });
 
         });
         function logout() {
