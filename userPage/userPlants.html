@@ -14,6 +14,7 @@
     <script src="http://code.highcharts.com/stock/modules/exporting.js"></script> 
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/userplants.js"></script>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/templatemo.css">
     <link rel="stylesheet" href="../assets/css/custom.css">
@@ -23,6 +24,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
 
+    
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light shadow">
@@ -83,28 +85,40 @@
         </div>
     </div>
 
-    <div class="hamburger-menu" onclick="toggleDropdown()">
+    <div class="form-plantSelect">
+        <label for="plantSelect">Seleccione la Planta:</label>
+        <select id="plantSelect" class="form-control"></select>
+    </div>
+
+    <div class="hamburger-menu" id="hamburgerMenu" onclick="toggleDropdown()">
         <div></div>
         <div></div>
         <div></div>
     </div>
 
     <div id="dropdown" class="dropdown-content">
-        <a href="#" id="openFormButton">Agregar Nueva Planta</a>
-        <a href="#" id="openJardinFormButton">Agregar Nuevo Jardin</a>
-        <a href="#" id="">Actualizar Planta</a>
-        <a href="#" id="">Actualizar Jardin</a>
+        <a href="#" id="openFormButton">
+            <i class = "fas fa-plus fa-leaf">
+                <i class = "fas fa-leaf">
+                    Agregar Nueva Planta</i></i>
+        </a>
+        <a href="#" id="openJardinFormButton">
+            <i class = "fas fa-plus">
+                <i class = "fas fa-seedling"> Agregar Nuevo Jardin</i></i>
+        </a>
+        <a href="#" id="updatePlantButton">
+            <i class = "fas fa-pencil-alt">
+                <i class = "fas fa-leaf"> Actualizar Planta</i></i>
+            </a>
+        <a href="#" id="updateJardinButton">
+            <i class = "fas fa-pencil-alt">
+                <i class = "fas fa-seedling">
+                 Actualizar Jardin</i></i>   
+        </a>
     </div>
-
-
-    <div class="form-plantSelect">
-        <label for="plantSelect">Seleccione la Planta:</label>
-        <select id="plantSelect" class="form-control"></select>
-    </div>
-
-    
 
     <div class="dark-overlay" id="darkOverlay"></div>
+    
     <!-- Planta Form -->
     <div class="form-popup" id="addPlantFormPopup">
         <h3>Agregar Nueva Planta</h3>
@@ -131,18 +145,19 @@
         </form>
     </div>
     <!-- End of Planta Form -->
-     <!-- Jardin Form -->
-     <div class="form-popup" id="addJardinFormPopup">
+    
+    <!-- Jardin Form -->
+    <div class="form-popup" id="addJardinFormPopup">
         <h3>Agregar Nuevo Jardin</h3>
-        <form id="addJardinForm" >
+        <form id="addJardinForm">
             <div class="form-group">
                 <label for="newJardinName">Nombre:</label>
                 <input type="text" id="newJardinName" class="form-control" required>
             </div>
             <section>
                 <div class="form-group">
-                    <label for="ubicacionJardin">ubicacion:</label>
-                    <select id="ubicacionJardin"  name="ubicacionJardin" class="form-control" required>
+                    <label for="ubicacionJardin">Ubicación:</label>
+                    <select id="ubicacionJardin" name="ubicacionJardin" class="form-control" required>
                         <option value="patio">Patio</option>
                         <option value="Dentro">Dentro del Hogar</option>
                         <option value="Pared">Pared (Vertical)</option>
@@ -155,444 +170,65 @@
             <button type="button" class="btn btn-secondary" id="closeJardinFormButton">Cancelar</button>
         </form>
     </div>
-    <div class="dataContainer">
-        <h3 align="center">Tus datos registrados</h3>
-        <table style="width: 100%">
-            <tr>
-                <td style="width: 17%">
-                    <div class="container mt-5">
-                        <div class="cardTemp">
-                            <div class="card-body">
-                                <h5 class="card-title">Temperatura</h5>
-                                <div class="temperature" id="temperature"></div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td style="width: 17%">
-                    <div class="container2 mt-5">
-                        <div class="cardHum">
-                            <div class="card-body">
-                                <h5 class="card-title">Humedad</h5>
-                                <div class="humidity" id="humidity"></div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td style="width: 17%">
-                    <div class="container3 mt-5">
-                        <div class="cardLux">
-                            <div class="card-body">
-                                <h5 class="card-title">Luminosidad</h5>
-                                <div class="luminosity" id="luminosity"></div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td style="width: 16%"></td>
-                <td style="width: 16%"></td>
-                <td style="width: 16%"></td>
-                <td style="width: 16%"></td>
-                <td style="width: 16%"></td>
-                <td style="width: 16%"></td>
-            </tr>
-        </table>
-        <script>
-            function updateValues(){
-                $.getJSON("http://localhost:8000/0322103800/getValue",function(response){
-                    var temperature = response.data.temperature;
-                    var humidity = response.data.RH;
-                    var luminosity = response.data.lux;
-        
-                    $('#temperature').text(temperature + ' °C');
-                    $('#humidity').text(humidity + ' %');  
-                    $('#luminosity').text(luminosity + ' %');
-                });
-            }
-            updateValues();
-            setInterval(updateValues,5000);
-        </script>
+    <!-- End of Jardin Form -->
 
-        <div class="gauge-container">
-            <div id="temperature_gauge" class="gauge" style="width:400px; height:320px"></div>
-            <div id="humidity_gauge" class="gauge" style="width:400px; height:320px"></div>
-            <div id="luminosity_gauge" class="gauge" style="width:350px; height:320px"></div>
-        </div>
-
-        <script>
-            var gauge_temp;
-            var gauge_hum;
-            var gauge_lux;
-    
-            function initGauge() {
-                gauge_temp = new JustGage({
-                    id: "temperature_gauge",
-                    value: 0,
-                    min: 0,
-                    max: 50,
-                    title: "Temperatura",
-                    levelColors: ["#0000FF"],
-                    label: "°C"
-                });
-                gauge_hum = new JustGage({
-                    id: "humidity_gauge",
-                    value: 0,
-                    min: 0,
-                    max: 100,
-                    title: "Humedad Relativa",
-                    levelColors: ["#00FF00"],
-                    label: "%"
-                });
-                gauge_lux = new JustGage({
-                    id: "luminosity_gauge",
-                    value: 0,
-                    min: 0,
-                    max: 4095,
-                    title: "Luminosidad",
-                    levelColors: ["#FF0000"],
-                    label: "%"
-                });
-            }
-    
-            function updateGauge(temperature, humidity, luminosity) {
-                gauge_temp.refresh(temperature);
-                gauge_hum.refresh(humidity);
-                gauge_lux.refresh(luminosity);
-            }
-    
-            function updateValues() {
-                $.getJSON('http://localhost:8000/0322103800/getValue', function(response) {
-                    var temperature = response.data.temperature;
-                    var humidity = response.data.RH;
-                    var luminosity = response.data.lux;
-                    console.log("Temperature = " + temperature);
-                    console.log("Humidity = " + humidity);
-                    console.log("Luminosity = " + luminosity);
-                    
-                    $('#temperature').text(temperature + ' °C');
-                    $('#humidity').text(humidity + ' %');
-                    $('#luminosity').text(luminosity + ' %');
-                    updateGauge(temperature, humidity,luminosity);
-                });
-            }
-    
-            $(document).ready(function() {
-                initGauge();
-                updateValues();
-                setInterval(updateValues, 5000);
-            });
-        </script>
-
-        <div class="charts-container">
-            <div id="temperature_chart"></div>
-            <div id="humidity_chart"></div>
-            <div id="luminosity_chart"></div>
-        </div>
-        <script>
-            function createChart(container, titleText, yAxisTitle, seriesName) {
-                return Highcharts.chart(container, {
-                    chart: {
-                        reflow: true,
-                        type: 'spline'
-                    },
-                    title: {
-                        text:  titleText
-                    },
-                    subtitle: {
-                        text: 'Data input from JSON API'
-                    },
-                    xAxis: {
-                        type: 'datetime',
-                        title: {
-                            text: 'Tiempo'
-                        }
-                    },
-                    yAxis: {
-                        title: {
-                            text: yAxisTitle
-                        }
-                    },
-                    series: [{
-                        name: seriesName,
-                        data: [],
-                        enablePolling: true
-                    }]
-                });
-            }
-        
-            var temperatureChart = createChart('temperature_chart', 'Temperatura', 'Celsius', 'Temperatura');
-            var humidityChart = createChart('humidity_chart', 'Humedad', '%', 'Humedad');
-            var luminosityChart = createChart('luminosity_chart', 'Luminosidad', '%', 'Luminosidad');
-        
-            function updateCharts() {
-                $.getJSON('http://localhost:8000/0322103800/singleValues', function(response) {
-                    var data = response.data;
-                    console.log('Received data:', data);
-        
-                    if (data.length > 0) {
-                        var timestamp = Date.parse(data[0][0]);
-                        var temperature = data[0][1];
-                        var humidity = data[0][2];
-                        var luminosity = data[0][3];
-        
-                        console.log('Timestamp:', timestamp);
-                        console.log('Temperature:', temperature);
-                        console.log('Humidity:', humidity);
-                        console.log('Luminosity:', luminosity);
-        
-                        console.log('Adding point to temperature chart:', [timestamp, temperature]);
-                        console.log('Adding point to humidity chart:', [timestamp, humidity]);
-                        console.log('Adding point to luminosity chart:', [timestamp, luminosity]);
-        
-                        temperatureChart.series[0].addPoint([timestamp, temperature], true, false);
-                        humidityChart.series[0].addPoint([timestamp, humidity], true, false);
-                        luminosityChart.series[0].addPoint([timestamp, luminosity], true, false);
-    
-                        temperatureChart.series[0].update({ color: '#0000FF' }); 
-                        humidityChart.series[0].update({ color: '#00FF00' });   
-                        luminosityChart.series[0].update({ color: '#FF0000' }); 
-        
-                        temperatureChart.redraw();
-                        humidityChart.redraw();
-                        luminosityChart.redraw();
-                    } else {
-                        console.log('No data received from API.');
-                    }
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    console.error('Error fetching data:', textStatus, errorThrown);
-                });
-            }
-        
-            updateCharts();
-            setInterval(updateCharts, 5000);
-        </script>
+    <!-- Update Planta Form -->
+    <div class="form-popup" id="updatePlantFormPopup">
+        <h3>Actualizar Planta</h3>
+        <form id="updatePlantForm">
+            <div class="form-group">
+                <label for="updatePlantSelect">Seleccione la Planta:</label>
+                <select id="updatePlantSelect" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+                <label for="updatePlantName">Nombre:</label>
+                <input type="text" id="updatePlantName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="updatePlantDescription">Descripción de Cuidados:</label>
+                <input type="text" id="updatePlantDescription" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="updatePlantDate">Fecha Plantado:</label>
+                <input type="date" id="updatePlantDate" class="form-control" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Actualizar Planta</button>
+            <button type="button" class="btn btn-secondary" id="closeUpdatePlantFormButton">Cancelar</button>
+        </form>
     </div>
+    <!-- End of Update Planta Form -->
 
-    <script>
-        function toggleDropdown() {
-            document.getElementById("dropdown").classList.toggle("show");
-        }
+    <!-- Update Jardin Form -->
+    <div class="form-popup" id="updateJardinFormPopup">
+        <h3>Actualizar Jardin</h3>
+        <form id="updateJardinForm">
+            <div class="form-group">
+                <label for="updateJardinSelect">Seleccione el Jardin:</label>
+                <select id="updateJardinSelect" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+                <label for="updateJardinName">Nombre:</label>
+                <input type="text" id="updateJardinName" class="form-control" required>
+            </div>
+            <section>
+                <div class="form-group">
+                    <label for="updateJardinUbicacion">Ubicación:</label>
+                    <select id="updateJardinUbicacion" name="updateJardinUbicacion" class="form-control" required>
+                        <option value="patio">Patio</option>
+                        <option value="Dentro">Dentro del Hogar</option>
+                        <option value="Pared">Pared (Vertical)</option>
+                        <option value="Terraza">Terraza/Balcón</option>
+                    </select>
+                </div>
+            </section>
+            <br>
+            <button type="submit" class="btn btn-success">Actualizar Jardin</button>
+            <button type="button" class="btn btn-secondary" id="closeUpdateJardinFormButton">Cancelar</button>
+        </form>
+    </div>
+    <!-- End of Update Jardin Form -->
 
-        window.onclick = function(event) {
-            if (!event.target.matches('.hamburger-menu, .hamburger-menu *')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
-
-        $(document).ready(function() {
-            var userToken = localStorage.getItem('userToken');
-            if (userToken) {
-                $.ajax({
-                    url: 'https://localhost:44313/api/Jardines/usuario/' + userToken,
-                    type: 'GET',
-                    success: function(jardinesResponse) {
-                        if (jardinesResponse && jardinesResponse.length > 0) {
-                            var jardinesIds = jardinesResponse.map(jardin => jardin.id);
-                            var jardin = jardinesResponse[0]; // Assuming the first garden is the relevant one
-
-                            // Populate garden select dropdown
-                            jardinesResponse.forEach(function(jardin) {
-                                $('#gardenSelect').append(new Option(jardin.nombre, jardin.id));
-                            });
-
-                            // Display garden information
-                            $('#gardenName').text(jardin.nombre);
-                            $('#gardenLocation').text(jardin.ubicacion);
-
-                            $.ajax({
-                                url: 'https://localhost:44313/api/Plantas/jardines',
-                                type: 'POST',
-                                contentType: 'application/json',
-                                data: JSON.stringify(jardinesIds),
-                                success: function(plantasResponse) {
-                                    if (plantasResponse && plantasResponse.length > 0) {
-                                        // Populate plant select dropdown
-                                        plantasResponse.forEach(function(planta) {
-                                            $('#plantSelect').append(new Option(planta.nombre, planta.id));
-                                        });
-
-                                        var planta = plantasResponse[0]; // Display the first plant as an example
-                                        $('#plantName').text(planta.nombre);
-                                        $('#plantDescription').text(planta.descripcion);
-                                        $('#plantWatering').text(planta.cantRiegoRequerido + ' veces al Día');
-                                        $('#plantDate').text(new Date(planta.fechaPlantado).toLocaleDateString());
-
-                                        // Display image if exists
-                                        if (planta.foto) {
-                                            $('#plantImage').attr('src', 'data:image/jpeg;base64,' + planta.foto);
-                                        }
-
-                                        // Set the plantId for the image upload
-                                        $('#uploadImageBtn').data('plant-id', planta.id);
-                                    }
-                                },
-                                error: function(jqXHR, textStatus, errorThrown) {
-                                    console.error("Error al obtener información de las plantas:", jqXHR.responseText);
-                                    alert("Error al obtener información de las plantas: " + jqXHR.responseText);
-                                }
-                            });
-                        } else {
-                            alert("No se encontró información de los jardines.");
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error("Error al obtener información de los jardines:", jqXHR.responseText);
-                        alert("Error al obtener información de los jardines: " + jqXHR.responseText);
-                    }
-                });
-            } else {
-                alert("Usuario no autenticado.");
-                window.location.href = '../index.html';
-            }
-
-            $('#uploadImageBtn').click(function() {
-                var fileInput = $('#plantImageUpload')[0];
-                var plantId = $(this).data('plant-id');
-                if (fileInput.files.length > 0 && plantId) {
-                    var file = fileInput.files[0];
-                    var formData = new FormData();
-                    formData.append('image', file);
-                    formData.append('plantId', plantId);
-
-                    $.ajax({
-                        url: 'https://localhost:44313/api/Plantas/uploadImage',
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function(response) {
-                            alert("Imagen subida correctamente");
-                            $('#plantImage').attr('src', 'data:image/jpeg;base64,' + response.image);
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.error("Error al subir la imagen:", jqXHR.responseText);
-                            alert("Error al subir la imagen: " + jqXHR.responseText);
-                        }
-                    });
-                } else {
-                    alert("No se ha seleccionado una imagen o la planta no está definida.");
-                }
-            });
-
-            $('#plantSelect').change(function() {
-                var plantId = $(this).val();
-                $.ajax({
-                    url: 'https://localhost:44313/api/Plantas/' + plantId,
-                    type: 'GET',
-                    success: function(planta) {
-                        $('#plantName').text(planta.nombre);
-                        $('#plantDescription').text(planta.descripcion);
-                        $('#plantWatering').text(planta.cantRiegoRequerido + ' veces al Día');
-                        $('#plantDate').text(new Date(planta.fechaPlantado).toLocaleDateString());
-
-                        // Display image if exists
-                        if (planta.foto) {
-                            $('#plantImage').attr('src', 'data:image/jpeg;base64,' + planta.foto);
-                        } else {
-                            $('#plantImage').attr('src', '');
-                        }
-
-                        // Set the plantId for the image upload
-                        $('#uploadImageBtn').data('plant-id', planta.id);
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error("Error al obtener información de la planta:", jqXHR.responseText);
-                        alert("Error al obtener información de la planta: " + jqXHR.responseText);
-                    }
-                });
-            });
-
-            $('#openFormButton').click(function() {
-                $('#darkOverlay').show();
-                $('#addPlantFormPopup').show();
-            });
-
-            $('#closeFormButton').click(function() {
-                $('#darkOverlay').hide();
-                $('#addPlantFormPopup').hide();
-            });
-
-                        
-
-            $('#addPlantForm').submit(function(event) {
-                event.preventDefault();
-
-                var newPlant = {
-                    id: "",
-                    nombre: $('#newPlantName').val(),
-                    descripcion: $('#newPlantDescription').val(),
-                    cantRiegoRequerido: Math.floor(Math.random() * 3) + 1,
-                    fechaPlantado: $('#newPlantDate').val(),
-                    jardin: $('#gardenSelect').val()
-                };
-
-                $.ajax({
-                    url: 'https://localhost:44313/api/Plantas',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(newPlant),
-                    success: function(response) {
-                        alert("Planta agregada correctamente");
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error("Error al agregar la planta:", jqXHR.responseText);
-                        alert("Error al agregar la planta: " + jqXHR.responseText);
-                    }
-                });
-            });
-
-            
-            $('#openJardinFormButton').click(function() {
-                $('#darkOverlay').show();
-                $('#addJardinFormPopup').show();
-            });
-
-            $('#closeJardinFormButton').click(function() {
-                $('#darkOverlay').hide();
-                $('#addJardinFormPopup').hide();
-            });
-
-            $('#addJardinForm').submit(function(event) {
-                event.preventDefault();
-                var userId = localStorage.getItem('userToken');
-
-                var newJardin = {
-                    id: "",
-                    nombre: $('#newJardinName').val(),
-                    ubicacion: $('#ubicacionJardin').val(),
-                    propietario: userId
-                };
-
-                $.ajax({
-                    url: 'https://localhost:44313/api/Jardines',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(newJardin),
-                    success: function(response) {
-                        alert("Planta agregada correctamente");
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error("Error al agregar el Jardin:", jqXHR.responseText);
-                        alert("Error al agregar el Jardin: " + jqXHR.responseText);
-                    }
-                });
-            });
-        });
-
-        function logout() {
-            localStorage.removeItem('userToken');
-            localStorage.removeItem('nombreUsuario');
-            alert("Sesión cerrada correctamente");
-            window.location.href = '../index.html';
-        }
-    </script>
+    
 </body>
 </html>
