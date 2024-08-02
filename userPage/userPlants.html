@@ -10,9 +10,8 @@
     <script src="https://code.highcharts.com/highcharts.js"></script> 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
-    <script src="http://code.highcharts.com/stock/highstock.js"></script>
     <script src="http://code.highcharts.com/stock/modules/exporting.js"></script> 
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/userplants.js"></script>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -228,7 +227,194 @@
         </form>
     </div>
     <!-- End of Update Jardin Form -->
+    <div class="dataContainer">
+        <h3 align="center">Tus datos registrados</h3>
+        <div class="form-group">
+            <h2>Grafica de Lineas</h2>
+            <label for="chartTypeSelect">Seleccione el tipo de gráfico:</label>
+            <select id="chartTypeSelect" class="form-control">
+                <option value="separated">Gráficos separados</option>
+                <option value="combined">Gráfico combinado</option>
+            </select>
+        </div>
+    
+        <!-- Separated Charts Container -->
+        <div id="separatedCharts" class="charts-container">
+            <div id="temperature_chart"></div>
+            <div id="humidity_chart"></div>
+            <div id="luminosity_chart"></div>
+        </div>
+    
+        <!-- Combined Chart Container -->
+        <div id="combinedChart" class="charts-container" style="display: none;">
+            <div id="combined_chart"></div>
+        </div>
+    
+        <!-- Gauge Container -->
+        
+            <h2>Medidores</h2>
+            <div class="gauge-container">
+                <div id="temperature_gauge" class="gauge" style="width:400px; height:320px"></div>
+                <div id="humidity_gauge" class="gauge" style="width:400px; height:320px"></div>
+                <div id="luminosity_gauge" class="gauge" style="width:350px; height:320px"></div>
+            </div>
 
     
-</body>
-</html>
+        <script>
+        // JustGage initialization
+        var gauge_temp;
+        var gauge_hum;
+        var gauge_lux;
+    
+        function initGauge() {
+            gauge_temp = new JustGage({
+                id: "temperature_gauge",
+                value: 0,
+                min: 0,
+                max: 50,
+                title: "Temperatura",
+                levelColors: ["#0000FF"],
+                label: "°C"
+            });
+            gauge_hum = new JustGage({
+                id: "humidity_gauge",
+                value: 0,
+                min: 0,
+                max: 100,
+                title: "Humedad Relativa",
+                levelColors: ["#00FF00"],
+                label: "%"
+            });
+            gauge_lux = new JustGage({
+                id: "luminosity_gauge",
+                value: 0,
+                min: 0,
+                max: 4095,
+                title: "Luminosidad",
+                levelColors: ["#FF0000"],
+                label: "%"
+            });
+        }
+    
+        function updateGauge(temperature, humidity, luminosity) {
+            gauge_temp.refresh(temperature);
+            gauge_hum.refresh(humidity);
+            gauge_lux.refresh(luminosity);
+        }
+    
+        function updateValues() {
+            $.getJSON('https://localhost:44313/api/lecturas/latest', function(response) {
+                if (response && response.temperatura != null && response.humedad != null && response.lux != null) {
+                    var temperature = response.temperatura;
+                    var humidity = response.humedad;
+                    var luminosity = response.lux;
+    
+                    updateGauge(temperature, humidity, luminosity);
+                } else {
+                    console.error("No valid data received from API.");
+                }
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching data:', textStatus, errorThrown);
+            });
+        }
+    
+        // Highcharts initialization
+        var temperatureChart, humidityChart, luminosityChart, combinedChart;
+    
+        function createChart(container, titleText, yAxisTitle, seriesName) {
+            return Highcharts.chart(container, {
+                chart: { type: 'spline' },
+                title: { text: titleText },
+                subtitle: { text: 'Data input from JSON API' },
+                xAxis: { type: 'datetime', title: { text: 'Tiempo' } },
+                yAxis: { title: { text: yAxisTitle } },
+                series: [{ name: seriesName, data: [] }]
+            });
+        }
+    
+        function createCombinedChart(container) {
+            return Highcharts.chart(container, {
+                chart: { type: 'spline' },
+                title: { text: 'Datos Combinados' },
+                subtitle: { text: 'Data input from JSON API' },
+                xAxis: { type: 'datetime', title: { text: 'Tiempo' } },
+                yAxis: { title: { text: 'Valores' } },
+                series: [
+                    { name: 'Temperatura', data: [], color: '#FF0000' },
+                    { name: 'Humedad', data: [], color: '#0000FF' },
+                    { name: 'Luminosidad', data: [], color: '#00FF00' }
+                ]
+            });
+        }
+    
+        function updateCharts() {
+            $.getJSON('https://localhost:44313/api/lecturas/history', function(response) {
+                if (Array.isArray(response)) {
+                    var data = { temperature: [], humidity: [], luminosity: [] };
+                    response.forEach(function(reading) {
+                        var timestamp = Date.parse(reading.fecha);
+                        data.temperature.push([timestamp, reading.temperatura]);
+                        data.humidity.push([timestamp, reading.humedad]);
+                        data.luminosity.push([timestamp, reading.lux]);
+                    });
+    
+                    data.temperature = data.temperature.slice(-10);
+                    data.humidity = data.humidity.slice(-10);
+                    data.luminosity = data.luminosity.slice(-10);
+    
+                    temperatureChart.series[0].setData(data.temperature, true);
+                    humidityChart.series[0].setData(data.humidity, true);
+                    luminosityChart.series[0].setData(data.luminosity, true);
+    
+                    combinedChart.series[0].setData(data.temperature, true);
+                    combinedChart.series[1].setData(data.humidity, true);
+                    combinedChart.series[2].setData(data.luminosity, true);
+                } else {
+                    console.error('Response is not an array.');
+                }
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching data:', textStatus, errorThrown);
+            });
+        }
+    
+        $(document).ready(function() {
+            // Initialize gauges and charts
+            initGauge();
+            updateValues();
+            setInterval(updateValues, 5000);
+    
+            temperatureChart = createChart('temperature_chart', 'Temperatura', 'Celsius', 'Temperatura');
+            humidityChart = createChart('humidity_chart', 'Humedad', '%', 'Humedad');
+            luminosityChart = createChart('luminosity_chart', 'Luminosidad', '%', 'Luminosidad');
+            combinedChart = createCombinedChart('combined_chart');
+    
+            updateCharts();
+            setInterval(updateCharts, 5000);
+    
+            // Toggle between separated and combined charts
+            var initialChartType = localStorage.getItem('chartType') || 'separated';
+            $('#chartTypeSelect').val(initialChartType);
+            if (initialChartType === 'combined') {
+                $('#separatedCharts').hide();
+                $('#combinedChart').show();
+            } else {
+                $('#separatedCharts').show();
+                $('#combinedChart').hide();
+            }
+
+            // Update localStorage and chart visibility on change
+            $('#chartTypeSelect').change(function() {
+                var selectedValue = $(this).val();
+                localStorage.setItem('chartType', selectedValue);
+                if (selectedValue === 'combined') {
+                    $('#separatedCharts').hide();
+                    $('#combinedChart').show();
+                } else {
+                    $('#separatedCharts').show();
+                    $('#combinedChart').hide();
+                }
+            });
+        });
+        </script>
+    </body>
+    </html>
