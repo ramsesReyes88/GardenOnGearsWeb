@@ -54,7 +54,8 @@
 .form-plantSelect{
     max-width: 100px;
     width: 100%;
-    position: relative;
+    position:absolute;
+    
     transform: translate(50px,-550px);
 }
 

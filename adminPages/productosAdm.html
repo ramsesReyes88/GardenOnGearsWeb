@@ -5,7 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/admincss/menuAdmin.css">
-    <title>Productos</title><!-- Incluye tu archivo CSS aquí -->
+    <title>Productos</title>
+
 </head>
 
 <body>
@@ -24,15 +25,9 @@
                 </a>
             </li>
             <li class="has-subnav">
-                <a href="./pedidosAdm.html">
-                    <i class="fa fa-archive fa-2x"></i>
-                    <span class="nav-text">Pedidos</span>
-                </a>
-            </li>
-            <li class="has-subnav">
                 <a href="./pagosAdm.html">
                     <i class="fa fa-money-bill fa-2x"></i>
-                    <span class="nav-text">Pagos</span>
+                    <span class="nav-text">Pedidos y Pagos</span>
                 </a>
             </li>
             <li class="has-subnav">
@@ -66,71 +61,248 @@
     <main>
         <div id="main-container">
             <h3>Productos</h3>
-            <div class="cards-container">
-                <div class="card">
-                    <p><strong>Imagen:</strong><img class ="adm-image" src="../assets/img/kit.png"></p>
-                    <p><strong>Codigo:</strong>244355</p>
-                    <p><strong>Nombre:</strong> Paquete de Administracion de Jardin</p>
-                    <p><strong>Description:</strong> Todos los componentes necesarios para el cuidado de los cultivos</p>
-                    <p><strong>Precio:</strong> 2404</p>
-                    <p><strong>Stock:</strong>100</p>
-                   
-                </div>
-                <div class="card">
-                    <p><strong>Imagen:</strong><img class ="adm-image" src="../assets/img/sensor-de-humedad-en-suelo.png"></p>
-                    <p><strong>Codigo:</strong>124</p>
-                    <p><strong>Nombre:</strong> Sensor para Humedad en la Tierra </p>
-                    <p><strong>Description:</strong> Componente necesario para la lectura de humedad dentro de la tierra</p>
-                    <p><strong>Precio:</strong> 200</p>
-                    <p><strong>Stock:</strong>500</p>
-                   
-                </div>
-                <div class="card">
-                    <p><strong>Imagen:</strong><img class ="adm-image" src="../assets/img/DHT22-1-sensor-y-temperatura.jpg"></p>
-                    <p><strong>Codigo:</strong>53365</p>
-                    <p><strong>Nombre:</strong> Sensor de Temperatura y Humedad DHT22</p>
-                    <p><strong>Description:</strong> Sensor para leer la temperatura y humedad de la atmosfera</p>
-                    <p><strong>Precio:</strong> 80</p>
-                    <p><strong>Stock:</strong>50</p>
-                   
-                </div>
-                <div class="card">
-                    <p><strong>Imagen:</strong><img class ="adm-image" src="../assets/img/esp32-shop.jpg"></p>
-                    <p><strong>Codigo:</strong>59404</p>
-                    <p><strong>Nombre:</strong> ESP-32 </p>
-                    <p><strong>Description:</strong> Placa de Pruebas</p>
-                    <p><strong>Precio:</strong> 200</p>
-                    <p><strong>Stock:</strong>500</p>
-                   
-                </div>
-                <div class="card">
-                    <p><strong>Imagen:</strong><img class ="adm-image" src="../assets/img/kit.png"></p>
-                    <p><strong>Codigo:</strong>244355</p>
-                    <p><strong>Nombre:</strong> Paquete de Administracion de Jardin</p>
-                    <p><strong>Description:</strong> Todos los componentes necesarios para el cuidado de los cultivos</p>
-                    <p><strong>Precio:</strong> 2404</p>
-                    <p><strong>Stock:</strong>100</p>
-                   
-                </div>
-                <div class="card">
-                    <p><strong>Imagen:</strong><img class ="adm-image" src="../assets/img/sensor-de-humedad-en-suelo.png"></p>
-                    <p><strong>Codigo:</strong>124</p>
-                    <p><strong>Nombre:</strong> Sensor para Humedad en la Tierra </p>
-                    <p><strong>Description:</strong> Componente necesario para la lectura de humedad dentro de la tierra</p>
-                    <p><strong>Precio:</strong> 200</p>
-                    <p><strong>Stock:</strong>500</p>
-                   
-                </div>
+            <button id = "addProd" class="btn btn-success" onclick="openForm('addProductFormPopup')">
+                Agregar Producto
+                </button>
+            <div class="cards-container" id="productCardsContainer">
+                <!-- Aquí se cargarán los productos dinámicamente -->
             </div>
         </div>
     </main>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Formulario para agregar un producto -->
+    <div class="form-popup" id="addProductFormPopup">
+        <h3>Agregar Nuevo Producto</h3>
+        <form id="addProductForm">
+            <div class="form-group">
+                <label for="newProductName">Nombre:</label>
+                <input type="text" id="newProductName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="newProductDescription">Descripción:</label>
+                <input type="text" id="newProductDescription" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="newProductPrice">Precio:</label>
+                <input type="number" id="newProductPrice" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="newProductImage">Imagen (URL):</label>
+                <input type="url" id="newProductImage" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="newProductStock">Stock:</label>
+                <input type="number" id="newProductStock" class="form-control" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Agregar Producto</button>
+            <button type="button" class="btn btn-secondary" onclick="closeForm('addProductFormPopup')">Cancelar</button>
+        </form>
+    </div>
+
+    <div class="form-popup" id="editProductFormPopup">
+        <h3>Editar Producto</h3>
+        <form id="editProductForm">
+            <input type="hidden" id="editProductId">
+            <div class="form-group">
+                <label for="editProductName">Nombre:</label>
+                <input type="text" id="editProductName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="editProductDescription">Descripción:</label>
+                <input type="text" id="editProductDescription" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="editProductPrice">Precio:</label>
+                <input type="number" id="editProductPrice" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="editProductImage">Imagen (URL):</label>
+                <input type="text" id="editProductImage" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="editProductStock">Stock:</label>
+                <input type="number" id="editProductStock" class="form-control" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            <button type="button" class="btn btn-secondary" onclick="closeForm('editProductFormPopup')">Cancelar</button>
+        </form>
+    </div>
+
+    <div class="form-popup" id="deleteProductFormPopup">
+        <h3>Confirmar Eliminación</h3>
+        <form id="deleteProductForm">
+            <input type="hidden" id="deleteProductId">
+            <div class="form-group">
+                <label for="adminPassword">Contraseña de Administrador:</label>
+                <input type="password" id="adminPassword" class="form-control" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-danger">Eliminar Producto</button>
+            <button type="button" class="btn btn-secondary" onclick="closeForm('deleteProductFormPopup')">Cancelar</button>
+        </form>
+    </div>
+
     <script>
         function logout() {
-           
             localStorage.removeItem('userToken');
             localStorage.removeItem('nombreUsuario');
             window.location.href = '../index.html';
         }
+
+        function openForm(formId) {
+            document.getElementById(formId).style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeForm(formId) {
+            document.getElementById(formId).style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        document.getElementById('addProductForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const newProduct = {
+                id:"",
+                nombre: document.getElementById('newProductName').value,
+                descripcion: document.getElementById('newProductDescription').value,
+                precio: parseFloat(document.getElementById('newProductPrice').value),
+                imagen: document.getElementById('newProductImage').value,
+                stock: parseInt(document.getElementById('newProductStock').value)
+            };
+
+            try {
+                const response = await fetch('https://localhost:44313/api/Productos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newProduct)
+                });
+
+                if (response.ok) {
+                    closeForm('addProductFormPopup');
+                    loadProducts(); // Recargar los productos después de agregar uno nuevo
+                } else {
+                    console.error('Error al agregar el producto');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        async function loadProducts() {
+            try {
+                const response = await fetch('https://localhost:44313/api/Productos');
+                const products = await response.json();
+                const productCardsContainer = document.getElementById('productCardsContainer');
+                productCardsContainer.innerHTML = '';
+
+                products.forEach(product => {
+                    const productCard = `
+                        <div class="card">
+                            <img src="${product.imagen}" alt="${product.nombre}">
+                            <h4>${product.nombre}</h4>
+                            <p>${product.descripcion}</p>
+                            <p>Precio: $${product.precio}</p>
+                            <p>Stock: ${product.stock}</p>
+                            <button class="btn btn-edit" onclick="openEditForm(${product.id}, '${product.nombre}', '${product.descripcion}', ${product.precio}, '${product.imagen}', ${product.stock})">
+                               <i class="fa fa-fw fa-pencil-alt"></i>
+                                </button>
+                            <button class="btn btn-delete" onclick="deleteProduct(${product.id})">
+                               <i class="fa fa-fw fa-trash"></i>
+                                </button>
+                        </div>
+                    `;
+                    productCardsContainer.insertAdjacentHTML('beforeend', productCard);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function openEditForm(id, nombre, descripcion, precio, imagen, stock) {
+            document.getElementById('editProductId').value = id;
+            document.getElementById('editProductName').value = nombre;
+            document.getElementById('editProductDescription').value = descripcion;
+            document.getElementById('editProductPrice').value = precio;
+            document.getElementById('editProductImage').value = imagen;
+            document.getElementById('editProductStock').value = stock;
+            openForm('editProductFormPopup');
+        }
+
+        document.getElementById('editProductForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const updatedProduct = {
+                id: document.getElementById('editProductId').value,
+                nombre: document.getElementById('editProductName').value,
+                descripcion: document.getElementById('editProductDescription').value,
+                precio: parseFloat(document.getElementById('editProductPrice').value),
+                imagen: document.getElementById('editProductImage').value,
+                stock: parseInt(document.getElementById('editProductStock').value)
+            };
+
+            try {
+                const response = await fetch(`https://localhost:44313/api/Productos/${updatedProduct.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedProduct)
+                });
+
+                if (response.ok) {
+                    closeForm('editProductFormPopup');
+                    loadProducts(); // Recargar los productos después de editar uno
+                } else {
+                    console.error('Error al actualizar el producto');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        function deleteProduct(id) {
+            document.getElementById('deleteProductId').value = id;
+            openForm('deleteProductFormPopup');
+        }
+
+        document.getElementById('deleteProductForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const id = document.getElementById('deleteProductId').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+
+            try {
+                const response = await fetch('https://localhost:44313/api/Usuarios', {
+                    method: 'GET'
+                });
+                const users = await response.json();
+                const admin = users.find(user => user.tipoUsuario === 'A' && user.contrasena === adminPassword);
+
+                if (admin) {
+                    const deleteResponse = await fetch(`https://localhost:44313/api/Productos/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (deleteResponse.ok) {
+                        closeForm('deleteProductFormPopup');
+                        loadProducts(); // Recargar los productos después de eliminar uno
+                    } else {
+                        console.error('Error al eliminar el producto');
+                    }
+                } else {
+                    alert('Contraseña de administrador incorrecta.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        // Cargar productos al cargar la página
+        document.addEventListener('DOMContentLoaded', loadProducts);
     </script>
 </body>
 

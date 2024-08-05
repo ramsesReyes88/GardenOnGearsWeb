@@ -4,7 +4,6 @@
     <title>Product Details</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -13,23 +12,18 @@
     <link rel="stylesheet" href="assets/css/single-shop.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
-
 </head>
-
 <body>
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
-
             <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
-            <img class = "gog-logo" src="assets/img/apple-icon.png">   
+                <img class="gog-logo" src="assets/img/apple-icon.png">
             </a>
-
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
@@ -44,22 +38,17 @@
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <a id="linkLogout" class="nav-icon  text-decoration-none" href="#" onclick="logout()">
+                    <a id="linkLogout" class="nav-icon text-decoration-none" href="#" onclick="logout()">
                         <i class="fa fa-fw fa-sign-out-alt text-dark mr-2"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <a id="linkCarrito" class="nav-icon position-relative text-decoration-none" href="./carrito.html">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-2"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="profile.html">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    
                 </div>
             </div>
-
         </div>
     </nav>
     <!-- Close Header -->
@@ -91,8 +80,23 @@
                 <h1 id="product-name"></h1>
                 <h2 id="product-price"></h2>
                 <p id="product-description"></p>
-
+                <button id="add-to-cart" class="btn btn-success">Add to Cart</button>
             </div>
+        </div>
+    </div>
+
+    <div id="customAlert" class="modal">
+        <div class="modal-content">
+            <span class="close-btn-prof" onclick="closeCustomAlert()">X</span>
+            <p id="alertMessage"></p>
+        </div>
+    </div>
+
+    <div id="customAlertCheck" class="modal">
+        <div class="modal-content">
+                <i class = "fas fa fa-check"></i>
+                <br>
+            <p id="alertMessageCheck"></p>
         </div>
     </div>
     <!-- End Content -->
@@ -104,6 +108,27 @@
     <script src="assets/js/templatemo.js"></script>
     <script src="assets/js/custom.js"></script>
     <script>
+         function showCustomAlertCheck(message) {
+            var modal = document.getElementById("customAlertCheck");
+            var messageElement = document.getElementById("alertMessageCheck");
+            messageElement.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        // Shows alert with X
+        function showCustomAlert(message) {
+            var modal = document.getElementById("customAlert");
+            var messageElement = document.getElementById("alertMessage");
+            messageElement.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        // Closes custom alert with x
+        function closeCustomAlert() {
+            var modal = document.getElementById("customAlert");
+            modal.style.display = "none";
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
@@ -116,25 +141,39 @@
                     document.getElementById('product-price').textContent = `$${product.precio}`;
                     document.getElementById('product-description').textContent = product.descripcion;
 
+                    document.getElementById('add-to-cart').addEventListener('click', function() {
+                        let cartProduct = {
+                            id: product.id,
+                            name: product.nombre,
+                            price: product.precio,
+                            image: product.imagen
+                        };
+
+                        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                        cart.push(cartProduct);
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        showCustomAlert('Product added to cart');
+                    });
                 })
                 .catch(error => {
                     console.error("Error fetching product data:", error);
                     alert('Failed to load product data');
                 });
 
-                $(document).ready(function() {
-            var userName = localStorage.getItem('nombreUsuario');
-            var userToken = localStorage.getItem('userToken');
-            if (userName && userToken) {
-                $("#join-banner").html('<p>Bienvenido, ' + userName + '</p>');
-                $("#infobanner1, #infobanner2").hide();
-                $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").show();
-            } else {
-                $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").hide();
-            }
-        });
+            $(document).ready(function() {
+                var userName = localStorage.getItem('nombreUsuario');
+                var userToken = localStorage.getItem('userToken');
+                if (userName && userToken) {
+                    $("#join-banner").html('<p>Bienvenido, ' + userName + '</p>');
+                    $("#infobanner1, #infobanner2").hide();
+                    $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").show();
+                } else {
+                    $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").hide();
+                }
+            });
         });
     </script>
     <!-- End Script -->
 </body>
 </html>
+

@@ -1,3 +1,25 @@
+function showCustomAlertCheck(message) {
+    var modal = document.getElementById("customAlertCheck");
+    var messageElement = document.getElementById("alertMessageCheck");
+    messageElement.textContent = message;
+    modal.style.display = "flex";
+}
+
+// Shows alert with X
+function showCustomAlert(message) {
+    var modal = document.getElementById("customAlert");
+    var messageElement = document.getElementById("alertMessage");
+    messageElement.textContent = message;
+    modal.style.display = "flex";
+}
+
+//Closes custom alert with x
+function closeCustomAlert() {
+    var modal = document.getElementById("customAlert");
+    modal.style.display = "none";
+}
+
+
 function toggleDropdown() {
     document.getElementById("dropdown").classList.toggle("show");
 }
@@ -14,6 +36,15 @@ window.onclick = function(event) {
     }
 }
 
+function previewImage(event) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        var output = document.getElementById('plantImage');
+        output.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+
 $(document).ready(function() {
     var userToken = localStorage.getItem('userToken');
     if (userToken) {
@@ -25,14 +56,36 @@ $(document).ready(function() {
                     var jardinesIds = jardinesResponse.map(jardin => jardin.id);
                     var jardin = jardinesResponse[0]; // Assuming the first garden is the relevant one
 
-                    
+                    // Populate garden select dropdown
                     jardinesResponse.forEach(function(jardin) {
                         $('#gardenSelect').append(new Option(jardin.nombre, jardin.id));
+                        $('#updatePlantGardenSelect').append(new Option(jardin.nombre, jardin.id));
                         $('#updateJardinSelect').append(new Option(jardin.nombre, jardin.id));
                     });
+
+                    // Display garden information
                     $('#gardenName').text(jardin.nombre);
                     $('#gardenLocation').text(jardin.ubicacion);
+                    $.ajax({
+                        url: 'https://localhost:44313/api/Plantas/jardines',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(jardinesIds),
+                        success: function(plantasResponse) {
+                            if (plantasResponse && plantasResponse.length > 0) {
+                                plantasResponse.forEach(function(planta) {
+                                    $('#updatePlantSelect').append(new Option(planta.nombre, planta.id));
+                                });
 
+                                // Cargar datos de la primera planta como ejemplo
+                                cargarDatosPlanta(plantasResponse[0].id);
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.error("Error al obtener información de las plantas:", jqXHR.responseText);
+                            showCustomAlert("Error al obtener información de las plantas: " + jqXHR.responseText);
+                        }
+                    });
                     $.ajax({
                         url: 'https://localhost:44313/api/Plantas/jardines',
                         type: 'POST',
@@ -43,7 +96,7 @@ $(document).ready(function() {
                                 // Populate plant select dropdown
                                 plantasResponse.forEach(function(planta) {
                                     $('#plantSelect').append(new Option(planta.nombre, planta.id));
-                                    $('#updatePlantSelect').append(new Option(planta.nombre, planta.id));
+                                    
                                 });
 
                                 var planta = plantasResponse[0]; // Display the first plant as an example
@@ -63,21 +116,54 @@ $(document).ready(function() {
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             console.error("Error al obtener información de las plantas:", jqXHR.responseText);
-                            alert("Error al obtener información de las plantas: " + jqXHR.responseText);
+                            showCustomAlertalert("Error al obtener información de las plantas: " + jqXHR.responseText);
                         }
                     });
                 } else {
-                    alert("No se encontró información de los jardines.");
+                    showCustomAlert("No se encontró información de los jardines.");
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("Error al obtener información de los jardines:", jqXHR.responseText);
-                alert("Error al obtener información de los jardines: " + jqXHR.responseText);
+                showCustomAlertalert("Error al obtener información de los jardines: " + jqXHR.responseText);
             }
         });
     } else {
-        alert("Usuario no autenticado.");
+        showCustomAlert("Usuario no autenticado.");
         window.location.href = '../index.html';
+    }
+
+    $('#updatePlantSelect').change(function() {
+        var plantId = $(this).val();
+        cargarDatosPlanta(plantId);
+    });
+
+    function cargarDatosPlanta(plantId) {
+        if (plantId) {
+            $.ajax({
+                url: 'https://localhost:44313/api/Plantas/' + plantId,
+                type: 'GET',
+                success: function(planta) {
+                    $('#updatePlantName').val(planta.nombre || '');
+                    $('#updatePlantDescription').val(planta.descripcion || '');
+                    $('#updatePlantDate').val(new Date(planta.fechaPlantado).toISOString().substring(0, 10) || '');
+                    $('#updatePlantGardenSelect').val(planta.jardin || '');
+                    $('#updatePlantPhoto').val(planta.foto || '');
+
+                    if (planta.foto) {
+                        $('#plantImage').attr('src', 'data:image/jpeg;base64,' + planta.foto);
+                    } else {
+                        $('#plantImage').attr('src', '../assets/img/white.jpg');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error al obtener información de la planta:", jqXHR.responseText);
+                    showCustomAlert("Error al obtener información de la planta: " + jqXHR.responseText);
+                }
+            });
+        } else {
+            showCustomAlert("No se seleccionó ninguna planta.");
+        }
     }
 
     $('#uploadImageBtn').click(function() {
@@ -98,14 +184,15 @@ $(document).ready(function() {
                 success: function(response) {
                     alert("Imagen subida correctamente");
                     $('#plantImage').attr('src', 'data:image/jpeg;base64,' + response.image);
+                    $('#updatePlantPhoto').val(response.image);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error("Error al subir la imagen:", jqXHR.responseText);
-                    alert("Error al subir la imagen: " + jqXHR.responseText);
+                    showCustomAlert("Error al subir la imagen: " + jqXHR.responseText);
                 }
             });
         } else {
-            alert("No se ha seleccionado una imagen o la planta no está definida.");
+            showCustomAlert("No se ha seleccionado una imagen o la planta no está definida.");
         }
     });
 
@@ -132,7 +219,43 @@ $(document).ready(function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("Error al obtener información de la planta:", jqXHR.responseText);
-                alert("Error al obtener información de la planta: " + jqXHR.responseText);
+                showCustomAlert("Error al obtener información de la planta: " + jqXHR.responseText);
+            }
+        });
+    });
+
+    $('#updatePlantSelect').change(function() {
+        var plantId = $(this).val();
+        $.ajax({
+            url: 'https://localhost:44313/api/Plantas/' + plantId,
+            type: 'GET',
+            success: function(planta) {
+                $('#updatePlantName').val(planta.nombre);
+                $('#updatePlantDescription').val(planta.descripcion);
+                $('#updatePlantDate').val(new Date(planta.fechaPlantado).toISOString().substring(0, 10));
+                $('#updatePlantGardenSelect').val(planta.jardin);
+                $('#updatePlantPhoto').val(planta.foto ? planta.foto : '');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error al obtener información de la planta:", jqXHR.responseText);
+                showCustomAlert("Error al obtener información de la planta: " + jqXHR.responseText);
+            }
+        });
+    });
+    
+
+    $('#updateJardinSelect').change(function() {
+        var jardinId = $(this).val();
+        $.ajax({
+            url: 'https://localhost:44313/api/Jardines/' + jardinId,
+            type: 'GET',
+            success: function(jardin) {
+                $('#updateJardinName').val(jardin.nombre);
+                $('#updateJardinUbicacion').val(jardin.ubicacion);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error al obtener información del jardin:", jqXHR.responseText);
+                showCustomAlert("Error al obtener información del jardin: " + jqXHR.responseText);
             }
         });
     });
@@ -164,12 +287,15 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify(newPlant),
             success: function(response) {
-                alert("Planta agregada correctamente");
-                location.reload();
+                showCustomAlertCheck("Planta agregada correctamente");
+                setTimeout(function() {
+                    location.reload();
+                }, 1500); 
+                
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("Error al agregar la planta:", jqXHR.responseText);
-                alert("Error al agregar la planta: " + jqXHR.responseText);
+                showCustomAlert("Error al agregar la planta: " + jqXHR.responseText);
             }
         });
     });
@@ -192,6 +318,7 @@ $(document).ready(function() {
             nombre: $('#newJardinName').val(),
             ubicacion: $('#ubicacionJardin').val(),
             propietario: userId
+            
         };
 
         $.ajax({
@@ -200,8 +327,10 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify(newJardin),
             success: function(response) {
-                alert("Jardin agregado correctamente");
-                location.reload();
+                showCustomAlertCheck("Jardin agregado correctamente");
+                setTimeout(function() {
+                    location.reload();
+                }, 1500);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("Error al agregar el Jardin:", jqXHR.responseText);
@@ -224,13 +353,13 @@ $(document).ready(function() {
         event.preventDefault();
 
         var plantId = $('#updatePlantSelect').val();
-        var jardinId = $('#gardenSelect').val(); 
         var updatedPlant = {
             id: plantId,
             nombre: $('#updatePlantName').val(),
             descripcion: $('#updatePlantDescription').val(),
             fechaPlantado: $('#updatePlantDate').val(),
-            jardin: jardinId 
+            jardin: $('#updatePlantGardenSelect').val(),
+            foto: $('#updatePlantPhoto').val()
         };
 
         $.ajax({
@@ -239,12 +368,14 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify(updatedPlant),
             success: function(response) {
-                alert("Planta actualizada correctamente");
-                location.reload();
+                showCustomAlertCheck("Planta actualizada correctamente");
+                setTimeout(function() {
+                    location.reload();
+                }, 1500);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("Error al actualizar la planta:", jqXHR.responseText);
-                alert("Error al actualizar la planta: " + jqXHR.responseText);
+                showCustomAlert("Error al actualizar la planta: " + jqXHR.responseText);
             }
         });
     });
@@ -263,12 +394,9 @@ $(document).ready(function() {
         event.preventDefault();
 
         var jardinId = $('#updateJardinSelect').val();
-        var userId = localStorage.getItem('userToken'); // Clave foránea propietario
         var updatedJardin = {
-            id: jardinId,
             nombre: $('#updateJardinName').val(),
-            ubicacion: $('#updateJardinUbicacion').val(),
-            propietario: userId // Incluyendo la clave foránea propietario
+            ubicacion: $('#updateJardinUbicacion').val()
         };
 
         $.ajax({
@@ -277,8 +405,10 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify(updatedJardin),
             success: function(response) {
-                alert("Jardin actualizado correctamente");
-                location.reload();
+                showCustomAlertCheck("Jardin actualizado correctamente");
+                setTimeout(function() {
+                    location.reload();
+                }, 1500);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("Error al actualizar el jardin:", jqXHR.responseText);
@@ -291,6 +421,8 @@ $(document).ready(function() {
 function logout() {
     localStorage.removeItem('userToken');
     localStorage.removeItem('nombreUsuario');
-    alert("Sesión cerrada correctamente");
-    window.location.href = '../index.html';
+    showCustomAlertCheck("Sesión cerrada correctamente");
+    setTimeout(function() {
+        window.location.href = '../index.html';
+    }, 1500);
 }

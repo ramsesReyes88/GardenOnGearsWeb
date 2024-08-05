@@ -1,62 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/admincss/menuAdmin.css">
-    <title>Plantas</title><!-- Incluye tu archivo CSS aquí -->
+    <title>Plantas</title>
+   
 </head>
-
 <body>
     <nav class="main-menu">
         <ul>
-            <li>
-                <a href="#">
-                    <i class="fa fa-home fa-2x"></i>
-                    <span class="nav-text">Inicio</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="./clientesAdm.html">
-                    <i class="fa fa-user fa-2x"></i>
-                    <span class="nav-text">Clientes</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="./pedidosAdm.html">
-                    <i class="fa fa-archive fa-2x"></i>
-                    <span class="nav-text">Pedidos</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="./pagosAdm.html">
-                    <i class="fa fa-money-bill fa-2x"></i>
-                    <span class="nav-text">Pagos</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="./productosAdm.html">
-                    <i class="fa fa-shopping-basket fa-2x"></i>
-                    <span class="nav-text">Productos</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="./plantasAdm.html">
-                    <i class="fa fa-leaf fa-2x"></i>
-                    <span class="nav-text">Plantas</span>
-                </a>
-            </li>
+            <li><a href="#"><i class="fa fa-home fa-2x"></i><span class="nav-text">Inicio</span></a></li>
+            <li class="has-subnav"><a href="./clientesAdm.html"><i class="fa fa-user fa-2x"></i><span class="nav-text">Clientes</span></a></li>
+            <li class="has-subnav"><a href="./pagosAdm.html"><i class="fa fa-money-bill fa-2x"></i><span class="nav-text">Pedidos y Pagos</span></a></li>
+            <li class="has-subnav"><a href="./productosAdm.html"><i class="fa fa-shopping-basket fa-2x"></i><span class="nav-text">Productos</span></a></li>
+            <li class="has-subnav"><a href="./plantasAdm.html"><i class="fa fa-leaf fa-2x"></i><span class="nav-text">Plantas</span></a></li>
         </ul>
-
         <ul class="logout">
-            <li>
-                <a href="../index.html">
-                    <a href = "#" onclick="logout()">
-                    <i class="fa fa-power-off fa-2x"></i>
-                    <span class="nav-text">Salir</span>
-                </a>
-            </li>
+            <li><a href="../index.html" onclick="logout()"><i class="fa fa-power-off fa-2x"></i><span class="nav-text">Salir</span></a></li>
         </ul>
     </nav>
 
@@ -66,28 +27,90 @@
     <main>
         <div id="main-container">
             <h3>Plantas</h3>
-            <div class="cards-container">
-                <div class="card">
-                    
-                    <p><strong>Imagen:</strong><img class ="adm-image" src="../assets/img/Hierbabuena_0611_Revised.jpg"></p>
-                    <p><strong>Nombre:</strong> Chlorophytum comosum</p>
-                    <p><strong>Descripcion de Cuidados:</strong> Necesita alta gama de sol, poca temperatura y un buen aire</p>
-                    <p><strong>Cantidad Riego Requerido:</strong> 2 veces al Dia</p>
-                    <p><strong>Fecha Plantado:</strong> 04/09/2004</p>
-                   
-                   
-                </div>
+            <div class="cards-container" id="plantasCardsContainer">
+                <!-- Aquí se cargarán las plantas dinámicamente -->
             </div>
         </div>
     </main>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="form-popup" id="deletePlantaFormPopup">
+        <h3>Confirmar Eliminación</h3>
+        <form id="deletePlantaForm">
+            <input type="hidden" id="deletePlantaId">
+            <div class="form-group">
+                <label for="adminPassword">Contraseña de Administrador:</label>
+                <input type="password" id="adminPassword" class="form-control" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-danger">Eliminar Planta</button>
+            <button type="button" class="btn btn-secondary" onclick="closeForm('deletePlantaFormPopup')">Cancelar</button>
+        </form>
+    </div>
+
     <script>
         function logout() {
-           
             localStorage.removeItem('userToken');
             localStorage.removeItem('nombreUsuario');
             window.location.href = '../index.html';
         }
+
+        function openForm(formId, plantaId) {
+            document.getElementById('overlay').style.display = 'flex';
+            document.getElementById(formId).style.display = 'block';
+            document.getElementById('deletePlantaId').value = plantaId;
+        }
+
+        function closeForm(formId) {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById(formId).style.display = 'none';
+        }
+
+        async function loadPlantas() {
+        try {
+            const response = await fetch('https://localhost:44313/api/Plantas');
+            const plantas = await response.json();
+            const plantasCardsContainer = document.getElementById('plantasCardsContainer');
+            plantasCardsContainer.innerHTML = '';
+
+            for (const planta of plantas) {
+                // Obtener el jardín asociado
+                const jardinResponse = await fetch(`https://localhost:44313/api/Jardines/${planta.jardin}`);
+                const jardin = await jardinResponse.json();
+                
+                // Obtener el usuario asociado al jardín
+                const usuarioResponse = await fetch(`https://localhost:44313/api/Usuarios/${jardin.propietario}`);
+                const usuario = await usuarioResponse.json();
+
+                const formatDate = dateStr => {
+                    const date = new Date(dateStr);
+                    return date.toLocaleDateString('es-ES');
+                };
+
+                const plantaCard = `
+                    <div class="card">
+                        ${planta.foto ? `<img src="data:image/jpeg;base64,${planta.foto}" alt="${planta.nombre}">` : '<p>No hay imagen disponible</p>'}
+                        <h4>Planta ID: ${planta.id}</h4>
+                        <p>Nombre: ${planta.nombre}</p>
+                        <p>Descripción: ${planta.descripcion}</p>
+                        <p>Fecha Plantado: ${formatDate(planta.fechaPlantado)}</p>
+                        <p>Jardín: ${jardin.nombre}</p>
+                        <p>Propietario del Jardín: ${usuario.nombreUsuario}</p>
+                        
+                    </div>
+                `;
+                plantasCardsContainer.insertAdjacentHTML('beforeend', plantaCard);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+      
+
+        // Cargar plantas al cargar la página
+        document.addEventListener('DOMContentLoaded', loadPlantas);
     </script>
 </body>
-
 </html>

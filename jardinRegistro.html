@@ -58,7 +58,43 @@
         </section>
     </main>
 
+    <div id="customAlert" class="modal">
+        <div class="modal-content">
+            <span class="close-btn-prof" onclick="closeCustomAlert()">X</span>
+            <p id="alertMessage"></p>
+        </div>
+    </div>
+    
+    <div id="customAlertCheck" class="modal">
+        <div class="modal-content">
+                <i class = "fas fa fa-check"></i>
+                <br>
+            <p id="alertMessageCheck"></p>
+        </div>
+    </div>
+
     <script>
+        function showCustomAlertCheck(message) {
+            var modal = document.getElementById("customAlertCheck");
+            var messageElement = document.getElementById("alertMessageCheck");
+            messageElement.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        // Shows alert with X
+        function showCustomAlert(message) {
+            var modal = document.getElementById("customAlert");
+            var messageElement = document.getElementById("alertMessage");
+            messageElement.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        //Closes custom alert with x
+        function closeCustomAlert() {
+            var modal = document.getElementById("customAlert");
+            modal.style.display = "none";
+        }
+
         $(document).ready(function() {
             $('#jardinPlantaForm').on('submit', function(event) {
                 event.preventDefault();
@@ -66,7 +102,7 @@
                 if (this.checkValidity()) {
                     registrarJardinYPlanta();
                 } else {
-                    alert("Por favor, completa todos los campos obligatorios.");
+                    showCustomAlert("Por favor, completa todos los campos obligatorios.");
                 }
             });
             $('#cancelButton').on('click', function() {
@@ -78,8 +114,10 @@
                     type: 'DELETE',
                     success: function() {
                         localStorage.removeItem('userId');
-                        alert("Registro cancelado, usuario eliminado.");
-                        window.location.href = './index.html';
+                        showCustomAlertCheck("Registro cancelado, usuario eliminado.");
+                        setTimeout(function() {
+                            window.location.href = './index.html';
+                        }, 2000); 
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         var errorMsg = `Error al eliminar el usuario:\n\nCódigo de Estado: ${jqXHR.status}\nDescripción: ${jqXHR.statusText}\nDetalles: ${jqXHR.responseText}`;
@@ -97,7 +135,7 @@
             var userId = localStorage.getItem('userId');
             
             if (!userId) {
-                alert("ID del usuario no encontrado.");
+                showCustomAlert("ID del usuario no encontrado.");
                 return;
             }
         
@@ -130,8 +168,10 @@
                         contentType: 'application/json',
                         data: JSON.stringify(planta),
                         success: function(plantaResponse) {
-                            alert("Registro exitoso");
+                            showCustomAlertCheck("Registro exitoso");
+                            setTimeout(function() {
                             window.location.href = './index.html';
+                            }, 2000); 
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             var errorMsg = `Error en el registro de planta:\n\nCódigo de Estado: ${jqXHR.status}\nDescripción: ${jqXHR.statusText}\nDetalles: ${jqXHR.responseText}`;

@@ -1,39 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Zay Shop - About Page</title>
+    <title>GardenOnGears PlantCare</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="./assets/js/main.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/usercss/usercss.css">
 
+    <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <style>
+        .footerGOG{
+            background-color: rgb(75, 71, 65);
+            position: absolute;
+            width: 100%;
+            height: 60px;
+            text-align: center;
+            border: 1px solid #363434;
+            bottom: 0%;
+        }
+        .footerGOG h4{
+            margin-top: 20px;
+            font-size: larger;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            color: rgb(17, 17, 17);
+        }
 
+        .card{
+            margin-top: 150px;
+        }
+        
+        .card img{
+            height: 100px;
+            width: 100px;
+            border-radius: 500px;
+        }
+
+    </style>
+   
 </head>
 
 <body>
-    
-
-
-    <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
-
             <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
-            <img class = "gog-logo" src="assets/img/apple-icon.png">   
+                <img class="gog-logo" src="assets/img/apple-icon.png">   
             </a>
-
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
@@ -41,51 +66,76 @@
                             <a class="nav-link" href="index.html">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="about.html">About</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="shop.html">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact</a>
+                            <a id="linkPlantas" class="nav-link hidden" href="./userPage/userPlants.html">Plantas</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                            <div class="input-group-text">
-                                <i class="fa fa-fw fa-search"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                    <a id="linkLogout" class="nav-icon text-decoration-none hidden" href="#" onclick="logout()">
+                        <i class="fa fa-fw fa-sign-out-alt text-dark mr-2"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none hidden" href="./carrito.html">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-2"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none hidden" href="profile.html">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                 </div>
             </div>
-
         </div>
     </nav>
-    <!-- Close Header -->
 
+    <div class = "cards-container">
+        <div class = "card">
+            <div class = "pic-container">
+                <img id="profileImage" class="profile-img" src="assets/img/WhatsApp Image 2024-07-23 at 7.59.37 PM.jpg">
+            </div>
+            <p>Reyes Contreras Ramses</p>
+            <p></p>
+            <p>Encargado en el desarrollo de la Pagina Web</p>
+            <p>0322103800@ut-tijuana.edu.mx</p>
+        </div>
+        <div class = "card">
+            <div class = "pic-container">
+                <img id="profileImage" class="profile-img" src="assets/img/Screenshot 2024-08-04 180930.jpg">
+            </div>
+            <p>Barraza Andalon Kevin Giovanni</p>
+            <p></p>
+            <p>Encargado en Base de Datos y Aplicacion Movil</p>
+            <p>0322103680@ut-tijuana.edu.mx</p>
+        </div>
+        <div class = "card">
+            <div class = "pic-container">
+                <img id="profileImage" class="profile-img" src="assets/img/Screenshot 2024-08-04 181515.jpg">
+            </div>
+            <p>Arce Llamas Irvin</p>
+            <p></p>
+            <p>Encargado en modelado y circuiteria en IoT</p>
+            <p>0322103670@ut-tijuana.edu.mx</p>
+        </div>
+    </div>
 
-    <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
-    <!-- End Script -->
+    <div id="customAlert" class="modal">
+        <div class="modal-content">
+                <i class = "fas fa fa-check"></i>
+            <p id="alertMessage"></p>
+        </div>
+    </div>
+    <script>
+        
+    </script>
+
 </body>
+<footer>
+    <div class="footerGOG">
+        <h4>@Copyright 2024 Equipo Garden On Gears 5 - A</h4>
+    </div>
+</footer>
 
 </html>

@@ -1,64 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/admincss/menuAdmin.css">
-    <title>Pagos</title><!-- Incluye tu archivo CSS aquí -->
-</head>
+    <title>Pedidos</title>
+    <style>
+        .btn-delete2{
+    background-color: #971010;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 50px;
+    height:40px ;
+    text-align: center;
+    align-items: center;
+    transform: translate(0px,0px);
+}
 
+.btn-delete2 i{
+    transform: translate(-5px,-8px);
+}
+
+.btn-delete2:hover {
+    background-color: #9b0a0a;
+}
+    </style>
+</head>
 <body>
     <nav class="main-menu">
         <ul>
-            <li>
-                <a href="#">
-                    <i class="fa fa-home fa-2x"></i>
-                    <span class="nav-text">Inicio</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="./clientesAdm.html">
-                    <i class="fa fa-user fa-2x"></i>
-                    <span class="nav-text">Clientes</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="./pedidosAdm.html">
-                    <i class="fa fa-archive fa-2x"></i>
-                    <span class="nav-text">Pedidos</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="./pagosAdm.html">
-                    <i class="fa fa-money-bill fa-2x"></i>
-                    <span class="nav-text">Pagos</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="./productosAdm.html">
-                    <i class="fa fa-shopping-basket fa-2x"></i>
-                    <span class="nav-text">Productos</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="./plantasAdm.html">
-                    <i class="fa fa-leaf fa-2x"></i>
-                    <span class="nav-text">Plantas</span>
-                </a>
-            </li>
+            <li><a href="#"><i class="fa fa-home fa-2x"></i><span class="nav-text">Inicio</span></a></li>
+            <li class="has-subnav"><a href="./clientesAdm.html"><i class="fa fa-user fa-2x"></i><span class="nav-text">Clientes</span></a></li>
+            <li class="has-subnav"><a href="./pagosAdm.html"><i class="fa fa-money-bill fa-2x"></i><span class="nav-text">Pedidos y Pagos</span></a></li>
+            <li class="has-subnav"><a href="./productosAdm.html"><i class="fa fa-shopping-basket fa-2x"></i><span class="nav-text">Productos</span></a></li>
+            <li class="has-subnav"><a href="./plantasAdm.html"><i class="fa fa-leaf fa-2x"></i><span class="nav-text">Plantas</span></a></li>
         </ul>
-
         <ul class="logout">
-            <li>
-                <a href="#" onclick="logout()">
-                    <i class="fa fa-power-off fa-2x"></i>
-                    <span class="nav-text">
-                        Salir
-                    </span>
-                </a>
-            </li>  
-        </ul> 
+            <li><a href="../index.html" onclick="logout()"><i class="fa fa-power-off fa-2x"></i><span class="nav-text">Salir</span></a></li>
+        </ul>
     </nav>
 
     <header id="menurapido"></header>
@@ -66,44 +46,148 @@
 
     <main>
         <div id="main-container">
-            <h3>Pagos</h3>
-            <div class="cards-container">
-                <div class="card">
-                    <p><strong>ID:</strong>2</p>
-                    <p><strong>Numero de Pago:</strong> 23</p>
-                    <p><strong>Monto:</strong> 242445</p>
-                </div>
-                <div class="card">
-                    <p><strong>ID:</strong>2</p>
-                    <p><strong>Numero de Pago:</strong> 24</p>
-                    <p><strong>Monto:</strong> 13044</p>
-                </div>
-                <div class="card">
-                    <p><strong>ID:</strong>2</p>
-                    <p><strong>Numero de Pago:</strong> 25</p>
-                    <p><strong>Monto:</strong> 20005</p>
-                </div>
-                <div class="card">
-                    <p><strong>ID:</strong>2</p>
-                    <p><strong>Numero de Pago:</strong> 26</p>
-                    <p><strong>Monto:</strong> 7500</p>
-                </div>
-                <div class="card">
-                    <p><strong>ID:</strong>2</p>
-                    <p><strong>Numero de Pago:</strong> 27</p>
-                    <p><strong>Monto:</strong> 120</p>
-                </div>
+            <h3>Pedidos</h3>
+            <div class="cards-container" id="pedidosCardsContainer">
+                <!-- Aquí se cargarán los pedidos dinámicamente -->
             </div>
         </div>
     </main>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="form-popup" id="deletePedidoFormPopup">
+        <h3>Confirmar Eliminación</h3>
+        <form id="deletePedidoForm">
+            <input type="hidden" id="deletePedidoId">
+            <div class="form-group">
+                <label for="adminPassword">Contraseña de Administrador:</label>
+                <input type="password" id="adminPassword" class="form-control" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-danger">Eliminar Pedido</button>
+            <button type="button" class="btn btn-secondary" onclick="closeForm('deletePedidoFormPopup')">Cancelar</button>
+        </form>
+    </div>
+
     <script>
         function logout() {
-           
             localStorage.removeItem('userToken');
             localStorage.removeItem('nombreUsuario');
             window.location.href = '../index.html';
         }
+
+        function openForm(formId, pedidoId) {
+            document.getElementById('overlay').style.display = 'flex';
+            document.getElementById(formId).style.display = 'block';
+            document.getElementById('deletePedidoId').value = pedidoId;
+        }
+
+        function closeForm(formId) {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById(formId).style.display = 'none';
+        }
+
+        async function loadPedidos() {
+            try {
+                const response = await fetch('https://localhost:44313/api/Pedidos');
+                const pedidos = await response.json();
+                const pedidosCardsContainer = document.getElementById('pedidosCardsContainer');
+                pedidosCardsContainer.innerHTML = '';
+
+                for (const pedido of pedidos) {
+                    const usuarioResponse = await fetch(`https://localhost:44313/api/Usuarios/${pedido.usuario}`);
+                    const usuario = await usuarioResponse.json();
+
+                    const productos = await Promise.all(pedido.productos.map(async productoId => {
+                        const productoResponse = await fetch(`https://localhost:44313/api/Productos/${productoId}`);
+                        return await productoResponse.json();
+                    }));
+
+                    // Filtrar pagos para el pedido actual
+                    const pagosResponse = await fetch(`https://localhost:44313/api/Pagos`);
+                    const todosPagos = await pagosResponse.json();
+                    const pagos = todosPagos.filter(pago => pago.pedido === pedido.id);
+
+                    const formatDate = dateStr => {
+                        const date = new Date(dateStr);
+                        return date.toLocaleDateString('es-ES');
+                    };
+
+                    const pedidoCard = `
+                        <div class="card">
+                            <h4>Pedido ID: ${pedido.id}</h4>
+                            <p>Fecha: ${formatDate(pedido.fecha)}</p>
+                            <p>Subtotal: ${pedido.subtotal}</p>
+                            <p>IVA: ${pedido.iva}</p>
+                            <p>Total con IVA: ${pedido.totalConIva}</p>
+                            <p>Estado: ${pedido.estado}</p>
+                            <p>Usuario: ${usuario.nombreUsuario}</p>
+                            <div>
+                                <h5>Productos:</h5>
+                                <ul>
+                                    ${productos.map(producto => `
+                                        <li>${producto.nombre} - $${producto.precio}</li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <h5>Pagos:</h5>
+                                ${pagos.length > 0 ? pagos.map(pago => `
+                                    <p>Pago ID: ${pago.id}</p> 
+                                    <p>Fecha: ${formatDate(pago.fecha)}</p> 
+                                    <p>Monto: $${pago.monto}</p>
+                                `).join('') : '<p>No se encontró información de pago.</p>'}
+                            </div>
+                            <button class="btn btn-delete2" onclick="openForm('deletePedidoFormPopup', '${pedido.id}')">
+                                <i class="fa fa-fw fa-trash"></i>
+                                    </button>
+                        </div>
+                    `;
+                    pedidosCardsContainer.insertAdjacentHTML('beforeend', pedidoCard);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function deletePedido(id) {
+            document.getElementById('deletePedidoId').value = id;
+            openForm('deletePedidoFormPopup');
+        }
+
+        document.getElementById('deletePedidoForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const id = document.getElementById('deletePedidoId').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+
+            try {
+                const response = await fetch('https://localhost:44313/api/Usuarios', {
+                    method: 'GET'
+                });
+                const users = await response.json();
+                const admin = users.find(user => user.tipoUsuario === 'A' && user.contrasena === adminPassword);
+
+                if (admin) {
+                    const deleteResponse = await fetch(`https://localhost:44313/api/Pedidos/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (deleteResponse.ok) {
+                        closeForm('deletePedidoFormPopup');
+                        loadPedidos(); 
+                    } else {
+                        console.error('Error al eliminar el pedido');
+                    }
+                } else {
+                    alert('Contraseña de administrador incorrecta.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        // Cargar pedidos al cargar la página
+        document.addEventListener('DOMContentLoaded', loadPedidos);
     </script>
 </body>
-
 </html>

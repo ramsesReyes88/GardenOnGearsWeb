@@ -5,12 +5,45 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
-    <link rel="stylesheet" href="assets/css/profile.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/templatemo.css">
+    <link rel="stylesheet" href="./assets/css/custom.css">
+    <link rel="stylesheet" href="./assets/css/profile.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="./assets/css/fontawesome.min.css">
+    <style>
+        html, body {
+           height: 100%;
+           margin: 0;
+           padding: 0;
+       }
+
+       body {
+           display: flex;
+           flex-direction: column;
+       }
+
+       main {
+           flex: 1;
+       }
+
+       .footerGOG {
+           background-color: rgb(75, 71, 65);
+           width: 100%;
+           height: 100px;
+           text-align: center;
+           border: 1px solid #363434;
+           position: relative;
+           bottom: 0;
+       }
+
+       .footerGOG h4 {
+           margin-top: 20px;
+           font-size: larger;
+           font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+           color: rgb(17, 17, 17);
+       }
+   </style>
 </head>
 <body>
     <!-- Header -->
@@ -55,40 +88,22 @@
     </nav>
     <!-- Close Header -->
 
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
+    <!-- Profile Section -->
     <div class="profile-banner">
         <div class="profile-card">
             <div class="pic-container">
-                <img id="profileImage" class="profile-img" src="assets/img/noPic.png">
+                <img id="profileImage" class="profile-img" src="assets/img/noPic.png" alt="Imagen de Perfil">
                 <div class="changePicture">
-                    <input type="file" id="uploadImage" accept="image/*" style="display:none">
+                    <input type="file" id="uploadImage" accept="image/*" style="display:none" onchange="previewProfileImage(event)">
                     <i class="iconProfile fa fa-folder-plus" onclick="document.getElementById('uploadImage').click();"></i>
                 </div>
             </div>
-            <span id="uploadImageBtn" cursor = "pointer">
-                <i class="iconUpload fa fa-upload">
-                    Upload Image
-                </i>
+            <span id="uploadImageBtn" cursor="pointer">
+                <i class="iconUpload fa fa-upload"> Subir Imagen</i>
             </span>
             <div class="pressables">
-                <a href="./userPage/userPlants.html">
-                    <i class="fa fa-leaf"> Revisa tus Plantas</i>
+                <a href="#" onclick="openEditProfileForm()">
+                    <i class="fa fa-edit"> Editar Perfil</i>
                 </a>
                 <a href="./userPage/userPurchases.html">
                     <i class="fa fa-shopping-cart"> Revisa tus Compras</i>
@@ -111,13 +126,127 @@
         </div>
     </div>
 
-    <!-- Start Script -->
+    <!-- Dark Overlay and Edit Profile Form -->
+    <div class="dark-overlay" id="darkOverlay"></div>
+    <div class="form-popup" id="editProfileFormPopup">
+        <h3>Editar Perfil</h3>
+        <form id="editProfileForm">
+            <div class="form-group">
+                <label for="editNombreUsuario">Nombre de Usuario:</label>
+                <input type="text" id="editNombreUsuario" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="editNombreCompleto">Nombre Completo:</label>
+                <input type="text" id="editNombreCompleto" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="editCorreo">Correo Electrónico:</label>
+                <input type="email" id="editCorreo" class="form-control" required>
+            </div>
+            <!-- Hidden fields to store non-editable data -->
+            <input type="hidden" id="editId" class="form-control">
+            <input type="hidden" id="editContrasena" class="form-control">
+            <input type="hidden" id="editTipoUsuarios" class="form-control">
+            <br>
+            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            <button type="button" class="btn btn-secondary" id="closeFormButton" onclick="closeEditProfileForm()">Cancelar</button>
+        </form>
+    </div>
+
+    <div id="customAlert" class="modal">
+        <div class="modal-content">
+            <span class="close-btn-prof" onclick="closeCustomAlert()">X</span>
+            <p id="alertMessage"></p>
+        </div>
+    </div>
+
+    <div id="customAlertCheck" class="modal">
+        <div class="modal-content">
+                <i class = "fas fa fa-check"></i>
+                <br>
+            <p id="alertMessageCheck"></p>
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
     <script src="assets/js/jquery-1.11.0.min.js"></script>
     <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/templatemo.js"></script>
     <script src="assets/js/custom.js"></script>
     <script>
+
+
+        // Shows alert with check
+        function showCustomAlertCheck(message) {
+            var modal = document.getElementById("customAlertCheck");
+            var messageElement = document.getElementById("alertMessageCheck");
+            messageElement.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        // Shows alert with X
+        function showCustomAlert(message) {
+            var modal = document.getElementById("customAlert");
+            var messageElement = document.getElementById("alertMessage");
+            messageElement.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        //Closes custom alert with x
+        function closeCustomAlert() {
+            var modal = document.getElementById("customAlert");
+            modal.style.display = "none";
+        }
+
+
+        var selectedProfileImage = null;
+    
+        function previewProfileImage(event) {
+            var reader = new FileReader();
+            
+            // Leer el archivo seleccionado
+            reader.onload = function() {
+                var output = document.getElementById('profileImage');
+                output.src = reader.result; // Mostrar la imagen
+    
+                // Guardar el archivo de imagen seleccionado para subirlo luego
+                selectedProfileImage = event.target.files[0];
+            }
+    
+            // Iniciar la lectura del archivo
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    
+        function uploadProfileImage() {
+            if (!selectedProfileImage) {
+                showCustomAlert("Por favor, selecciona una imagen primero.");
+                return;
+            }
+    
+            var formData = new FormData();
+            var userId = localStorage.getItem('userToken');
+            formData.append('image', selectedProfileImage);
+            formData.append('usuarioId', userId);
+    
+            $.ajax({
+                url: 'https://localhost:44313/api/Usuarios/uploadImage',
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (result) {
+                    showCustomAlert("Imagen de perfil actualizada exitosamente");
+                    localStorage.setItem('profileImage_' + userId, 'data:image/jpeg;base64,' + result.image);
+                    selectedProfileImage = null; // Resetear la variable después de subir la imagen
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("Error al subir la imagen:", jqXHR.responseText);
+                }
+            });
+        }
+    
         $(document).ready(function () {
             var userId = localStorage.getItem('userToken');
             var nombreUsuario = localStorage.getItem('nombreUsuario');
@@ -128,7 +257,7 @@
             }
     
             if (!userId) {
-                alert("No se ha iniciado sesión");
+                showCustomAlert("No se ha iniciado sesión");
                 window.location.href = './inicioSesion.html';
                 return;
             }
@@ -138,30 +267,31 @@
                 type: 'GET',
                 success: function (usuario) {
                     $('#nombreUsuario').text(usuario.nombreUsuario);
-                    $('#nombreCompleto').text(`${usuario.nombreCompleto.nombre} ${usuario.nombreCompleto.apPaterno} ${usuario.nombreCompleto.apMaterno}`);
-                    $('#correo').text(usuario.correo);
+                    $('#nombreCompleto').text(`${usuario.nombreCompleto.nombre} ${usuario.nombreCompleto.apPaterno} ${usuario.nombreCompleto.apMaterno}`);                    $('#correo').text(usuario.correo);
                     if (usuario.foto) {
                         $('#profileImage').attr('src', 'data:image/jpeg;base64,' + usuario.foto);
                     }
-                    // Set the plantId for the image upload
-                    $('#uploadImageBtn').data('user-id', usuario.id);
+    
+                    $('#editId').val(usuario.id);
+                    $('#editContrasena').val(usuario.contrasena);
+                    $('#editTipoUsuarios').val(usuario.tipoUsuario);
+    
+                    $('#editNombreUsuario').val(usuario.nombreUsuario);
+                    $('#editNombreCompleto').val(`${usuario.nombreCompleto.nombre} ${usuario.nombreCompleto.apPaterno} ${usuario.nombreCompleto.apMaterno}`);
+                    $('#editCorreo').val(usuario.correo);
     
                     $.ajax({
                         url: 'https://localhost:44313/api/Jardines/usuario/' + userId,
                         type: 'GET',
                         success: function (jardines) {
-                            console.log('Jardines obtenidos:', jardines);
                             var jardinesIds = jardines.map(jardin => jardin.id);
-    
                             $.ajax({
                                 url: 'https://localhost:44313/api/Plantas/jardines',
                                 type: 'POST',
                                 contentType: 'application/json',
                                 data: JSON.stringify(jardinesIds),
                                 success: function (plantas) {
-                                    console.log('Plantas obtenidas:', plantas);
                                     $('#numPlantas').text(plantas.length);
-    
                                     var listaPlantasHtml = plantas.map(planta => `<li>${planta.nombre}</li>`).join('');
                                     $('#listaPlantas').html(listaPlantasHtml);
                                 },
@@ -179,45 +309,73 @@
                     console.error("Error al obtener el usuario:", jqXHR.responseText);
                 }
             });
-            $('#uploadImageBtn').click(function() {
-            var fileInput = $('#uploadImage')[0];
-            var userId = $(this).data('user-id');
-            if (fileInput.files.length > 0 && userId) {
-                var file = fileInput.files[0];
-                var formData = new FormData();
-                formData.append('image', file);
-                formData.append('usuarioId', userId);  
-
-                $.ajax({
-                    url: 'https://localhost:44313/api/Usuarios/uploadImage',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        alert("Imagen subida correctamente");
-                        $('#profileImage').attr('src', 'data:image/jpeg;base64,' + response.image);
+    
+            $('#editProfileForm').submit(function (event) {
+                event.preventDefault();
+                var updatedData = {
+                    id: $('#editId').val(),
+                    contrasena: $('#editContrasena').val(),
+                    tipoUsuario: $('#editTipoUsuarios').val(),
+                    nombreUsuario: $('#editNombreUsuario').val(),
+                    nombreCompleto: {
+                        nombre: $('#editNombreCompleto').val().split(" ")[0],
+                        apPaterno: $('#editNombreCompleto').val().split(" ")[1],
+                        apMaterno: $('#editNombreCompleto').val().split(" ")[2]
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error("Error al subir la imagen:", jqXHR.responseText);
-                        alert("Error al subir la imagen: " + jqXHR.responseText);
+                    correo: $('#editCorreo').val(),
+                    foto: savedImage ? savedImage.split(',')[1] : null
+                };
+    
+                $.ajax({
+                    url: 'https://localhost:44313/api/Usuarios/' + userId,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(updatedData),
+                    success: function (result) {
+                        showCustomAlertCheck("Perfil actualizado exitosamente");
+                        closeEditProfileForm();
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1500); 
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error("Error al actualizar el perfil:", jqXHR.responseText);
                     }
                 });
-            } else {
-                alert("No se ha seleccionado una imagen.");
-            }
+            });
+    
+            $('#uploadImageBtn').click(function () {
+                uploadProfileImage();
+            });
         });
-
-        });
+    
+        function openEditProfileForm() {
+            document.getElementById("darkOverlay").style.display = "block";
+            document.getElementById("editProfileFormPopup").style.display = "block";
+        }
+    
+        function closeEditProfileForm() {
+            document.getElementById("darkOverlay").style.display = "none";
+            document.getElementById("editProfileFormPopup").style.display = "none";
+        }
+    
         function logout() {
-                localStorage.removeItem('userToken');
-                localStorage.removeItem('nombreUsuario');
-                alert("Sesión cerrada correctamente");
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('nombreUsuario');
+            showCustomAlertCheck("Sesión cerrada correctamente");
+            setTimeout(function() {
                 window.location.href = './index.html';
+            }, 2000);
         }
     </script>
     
-    
-    <!-- End Script -->
 </body>
+<footer>
+    <div class="footerGOG">
+        <h4>@Copyright 2024 Equipo Garden On Gears 5 - A</h4>
+         <a href="./about.html">
+            Conocenos
+        </a>
+    </div>
+</footer>
 </html>

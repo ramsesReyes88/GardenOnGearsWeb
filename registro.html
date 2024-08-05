@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Registro</title>
     <link rel="stylesheet" href="./assets/css/registro.css" type="text/css">
+    <link rel="stylesheet" href="./assets/css/custom.css">
+
     <meta name="author" content=""/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -57,7 +59,45 @@
         </section>
     </section>
 </main>
+
+<div id="customAlert" class="modal">
+    <div class="modal-content">
+        <span class="close-btn-prof" onclick="closeCustomAlert()">X</span>
+        <p id="alertMessage"></p>
+    </div>
+</div>
+
+<div id="customAlertCheck" class="modal">
+    <div class="modal-content">
+            <i class = "fas fa fa-check"></i>
+            <br>
+        <p id="alertMessageCheck"></p>
+    </div>
+</div>
+
 <script>
+     // Shows alert with check
+        function showCustomAlertCheck(message) {
+            var modal = document.getElementById("customAlertCheck");
+            var messageElement = document.getElementById("alertMessageCheck");
+            messageElement.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        // Shows alert with X
+        function showCustomAlert(message) {
+            var modal = document.getElementById("customAlert");
+            var messageElement = document.getElementById("alertMessage");
+            messageElement.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        //Closes custom alert with x
+        function closeCustomAlert() {
+            var modal = document.getElementById("customAlert");
+            modal.style.display = "none";
+        }
+
     $(document).ready(function() {
         $('#registroForm').on('submit', function(event) {
             event.preventDefault();
@@ -65,7 +105,7 @@
             if (this.checkValidity()) {
                 registrarUsuario();
             } else {
-                alert("Por favor, completa todos los campos obligatorios.");
+                showCustomAlert("Por favor, completa todos los campos obligatorios.");
             }
         });
     });
@@ -93,15 +133,17 @@
             success: function(response) {
                 if (response && response.id) {
                     localStorage.setItem('userId', response.id);
-                    alert("Usuario registrado exitosamente");
-                    window.location.href = './jardinRegistro.html?userId=' + response.id;
+                    showCustomAlertCheck("Usuario registrado exitosamente");
+                    setTimeout(function() {
+                        window.location.href = './jardinRegistro.html?userId=' + response.id;
+                    }, 1500);
                 } else {
-                    alert("Error: ID del usuario no recibido.");
+                    showCustomAlert("Error: ID del usuario no recibido.");
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("Error en el registro del usuario:", jqXHR.responseText);
-                alert("Error en el registro del usuario: " + jqXHR.responseText);
+                showCustomAlert("Error en el registro del usuario: " + jqXHR.responseText);
             }
         });
     }

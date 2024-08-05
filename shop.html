@@ -81,6 +81,21 @@
             </div>
         </div>
     </div>
+
+    <div id="customAlert" class="modal">
+        <div class="modal-content">
+            <span class="close-btn-prof" onclick="closeCustomAlert()">X</span>
+            <p id="alertMessage"></p>
+        </div>
+    </div>
+
+    <div id="customAlertCheck" class="modal">
+        <div class="modal-content">
+                <i class = "fas fa fa-check"></i>
+                <br>
+            <p id="alertMessageCheck"></p>
+        </div>
+    </div>
     <!-- End Content -->
 
     <!-- Start Script -->
@@ -91,6 +106,27 @@
     <script src="assets/js/custom.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
+        function showCustomAlertCheck(message) {
+            var modal = document.getElementById("customAlertCheck");
+            var messageElement = document.getElementById("alertMessageCheck");
+            messageElement.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        // Shows alert with X
+        function showCustomAlert(message) {
+            var modal = document.getElementById("customAlert");
+            var messageElement = document.getElementById("alertMessage");
+            messageElement.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        //Closes custom alert with x
+        function closeCustomAlert() {
+            var modal = document.getElementById("customAlert");
+            modal.style.display = "none";
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             fetch("https://localhost:44313/api/Productos")
                 .then(response => response.json())
@@ -104,9 +140,8 @@
                                         <img class="card-img rounded-0 img-fluid" src="${product.imagen}" alt="${product.nombre}">
                                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                             <ul class="list-unstyled">
-                                                <li><a class="btn btn-success text-white" href="shop-single.html?id=${product.id}"><i class="far fa-heart"></i></a></li>
                                                 <li><a class="btn btn-success text-white mt-2" href="shop-single.html?id=${product.id}"><i class="far fa-eye"></i></a></li>
-                                                <li><a class="btn btn-success text-white mt-2 add-to-cart" data-id="${product.id}" data-name="${product.nombre}" data-price="${product.precio}" data-image="${product.imagen}"><i class="fas fa-cart-plus"></i></a></li>
+                                                <li><a id="addCart" class="btn btn-success text-white mt-2 add-to-cart hidden" data-id="${product.id}" data-name="${product.nombre}" data-price="${product.precio}" data-image="${product.imagen}"><i class="fas fa-cart-plus"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -143,7 +178,7 @@
                             let cart = JSON.parse(localStorage.getItem('cart')) || [];
                             cart.push(product);
                             localStorage.setItem('cart', JSON.stringify(cart));
-                            alert('Product added to cart');
+                            showCustomAlert('Product added to cart');
                         });
                     });
 
@@ -151,9 +186,9 @@
                         var userName = localStorage.getItem('nombreUsuario');
                         var userToken = localStorage.getItem('userToken');
                         if (userName && userToken) {
-                            $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").removeClass('hidden');
+                            $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito,#addCart").removeClass('hidden');
                         } else {
-                            $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito").addClass('hidden');
+                            $("#linkPlantas, #linkPerfil, #linkLogout, #linkCarrito,#addCart").addClass('hidden');
                         }
                     });
 
@@ -161,12 +196,15 @@
                 });
         });
         function logout() {
-                        localStorage.removeItem('userToken');
-                        localStorage.removeItem('nombreUsuario');
-                        alert("Sesión cerrada correctamente");
-                        window.location.href = './index.html';
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('nombreUsuario');
+            showCustomAlertCheck("Sesión cerrada correctamente");
+            setTimeout(function() {
+                window.location.href = './index.html';
+            }, 2000); 
         }
     </script>
     <!-- End Script -->
 </body>
+
 </html>
