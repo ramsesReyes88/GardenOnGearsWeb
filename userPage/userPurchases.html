@@ -12,12 +12,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="../assets/css/usercss/usercss.css">
+    <script src="./assets/js/redirect.js"></script>
+
     
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
-            <a class="navbar-brand text-success logo h1 align-self-center" href="../index.html">
+            <a class="navbar-brand text-success logo h1 align-self-center" href="../index">
                 <img class="gog-logo" src="../assets/img/apple-icon.png">   
             </a>
 
@@ -29,13 +31,13 @@
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="../index.html">Home</a>
+                            <a class="nav-link" href="../index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../shop.html">Shop</a>
+                            <a class="nav-link" href="../shop">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a id="linkPlantas" class="nav-link" href="./userPlants.html">Plantas</a>
+                            <a id="linkPlantas" class="nav-link" href="./userPlants">Plantas</a>
                         </li>
                     </ul>
                 </div>
@@ -43,10 +45,10 @@
                     <a id="linkLogout" class="nav-icon text-decoration-none" href="#" onclick="logout()">
                         <i class="fa fa-fw fa-sign-out-alt text-dark mr-2"></i>
                     </a>
-                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none" href="../carrito.html">
+                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none" href="../carrito">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-2"></i>
                     </a>
-                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="../profile.html">
+                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="../profile">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                     </a>
                 </div>
@@ -67,14 +69,14 @@
         function logout() {
             localStorage.removeItem('userToken');
             localStorage.removeItem('nombreUsuario');
-            window.location.href = '../index.html';
+            window.location.href = '../index';
         }
 
         $(document).ready(function() {
             const userId = localStorage.getItem('userToken');
             if (!userId) {
                 alert('Debes iniciar sesión para ver tus compras.');
-                window.location.href = '../index.html';
+                window.location.href = '../index';
             }
 
             async function loadUserPayments() {

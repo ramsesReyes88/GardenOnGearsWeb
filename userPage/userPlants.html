@@ -15,6 +15,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/userplants.js"></script>
     <script src="../assets/js/plantsCharts.js"></script>
+    <script src="../assets/js/redirect.js"></script>
+
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/templatemo.css">
     <link rel="stylesheet" href="../assets/css/custom.css">
@@ -23,11 +25,21 @@
     <link rel="stylesheet" href="../assets/css/usercss/chartsStyles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="../assets/css/fontawesome.min.css">    
+
+    <style>
+    .modal{
+        z-index: 5000;
+    }
+
+    #customAlertCheck{
+        z-index: 5000;
+    }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
-            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+            <a class="navbar-brand text-success logo h1 align-self-center" href="index">
                 <img class="gog-logo" src="../assets/img/apple-icon.png">   
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,19 +48,19 @@
             <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
-                        <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="../shop.html">Shop</a></li>
-                        <li class="nav-item"><a id="linkPlantas" class="nav-link" href="./userPlants.html">Plantas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../shop">Shop</a></li>
+                        <li class="nav-item"><a id="linkPlantas" class="nav-link" href="./userPlants">Plantas</a></li>
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
                     <a id="linkLogout" class="nav-icon position-relative text-decoration-none" href="#" onclick="logout()">
                         <i class="fa fa-fw fa-sign-out-alt text-dark mr-4"></i>
                     </a>
-                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="../profile.html">
+                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none" href="../profile">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="../carrito.html">
+                    <a class="nav-icon position-relative text-decoration-none" href="../carrito">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                     </a>
                 </div>
@@ -75,12 +87,13 @@
             <p><strong>Nombre:</strong> <span id="plantName"></span></p>
             <p><strong>Descripcion de la Planta:</strong> <span id="plantDescription"></span></p>
             <p><strong>Fecha Plantado:</strong> <span id="plantDate"></span></p>
-
+    
             <h3>Jardín:</h3>
             <p><strong>Nombre del Jardín:</strong> <span id="gardenName"></span></p>
             <p><strong>Ubicación del Jardín:</strong> <span id="gardenLocation"></span></p>
         </div>
     </div>
+    
 
     <div class="form-plantSelect">
         <label for="plantSelect">Seleccione la Planta:</label>

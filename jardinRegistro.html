@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="./assets/css/registro.css" type="text/css">
     <meta name="author" content=""/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./assets/js/redirect.js"></script>
+
 </head>
 <body>
     <main>
@@ -116,7 +118,7 @@
                         localStorage.removeItem('userId');
                         showCustomAlertCheck("Registro cancelado, usuario eliminado.");
                         setTimeout(function() {
-                            window.location.href = './index.html';
+                            window.location.href = './index';
                         }, 2000); 
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -126,7 +128,10 @@
                     }
                 });
             } else {
-                window.location.href = './index.html';
+                showCustomAlertCheck("Registro finalizado, Bienvenido");
+                setTimeout(function() {
+                    window.location.href = './index';
+                }, 2000); 
             }
             });
         });
@@ -170,7 +175,7 @@
                         success: function(plantaResponse) {
                             showCustomAlertCheck("Registro exitoso");
                             setTimeout(function() {
-                            window.location.href = './index.html';
+                            window.location.href = './index';
                             }, 2000); 
                         },
                         error: function(jqXHR, textStatus, errorThrown) {

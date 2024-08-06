@@ -285,9 +285,9 @@ strong {
     height:40px ;
     text-align: center;
     align-items: center;
-    position: fixed;
+
     float: right;
-    transform: translate(-60px,0px);
+    transform: translate(-160px,-0px);
 }
 
 .btn-edit i{

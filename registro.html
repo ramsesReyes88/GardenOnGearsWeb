@@ -8,6 +8,8 @@
 
     <meta name="author" content=""/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./assets/js/redirect.js"></script>
+
 </head>
 <body>
 <main>
@@ -52,7 +54,7 @@
                 </section>
                 <button class="LoginButton" type="submit">Registrar</button>
             </form>
-            <button class="LoginButton" onclick="window.location.href='./index.html'">Cancelar</button>
+            <button class="LoginButton" onclick="window.location.href='./index'">Cancelar</button>
             <section class="aviso">
                 <span class="obligatorio"> * </span>los campos son obligatorios.
             </section>
@@ -135,7 +137,7 @@
                     localStorage.setItem('userId', response.id);
                     showCustomAlertCheck("Usuario registrado exitosamente");
                     setTimeout(function() {
-                        window.location.href = './jardinRegistro.html?userId=' + response.id;
+                        window.location.href = './jardinRegistro?userId=' + response.id;
                     }, 1500);
                 } else {
                     showCustomAlert("Error: ID del usuario no recibido.");

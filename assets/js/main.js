@@ -11,7 +11,7 @@ function logout() {
     localStorage.removeItem('cart');
     showCustomAlert("Sesión cerrada correctamente");
     setTimeout(function() {
-        window.location.href = './index.html';
+        window.location.href = './index';
     }, 2000); 
 }
 

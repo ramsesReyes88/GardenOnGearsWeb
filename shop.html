@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <script src="./assets/js/redirect.js"></script>
+
 </head>
 
 <body>
@@ -31,13 +33,13 @@
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home</a>
+                            <a class="nav-link" href="index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="shop.html">Shop</a>
+                            <a class="nav-link" href="shop">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a id="linkPlantas" class="nav-link hidden" href="./userPage/userPlants.html">Plantas</a>
+                            <a id="linkPlantas" class="nav-link hidden" href="./userPage/userPlants">Plantas</a>
                         </li>
                     </ul>
                 </div>
@@ -46,11 +48,11 @@
                         <i class="fa fa-fw fa-sign-out-alt text-dark mr-2"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none hidden" href="./carrito.html">
+                    <a id="linkCarrito" class="nav-icon position-relative text-decoration-none hidden" href="./carrito">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-2"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none hidden" href="profile.html">
+                    <a id="linkPerfil" class="nav-icon position-relative text-decoration-none hidden" href="./profile">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
@@ -140,7 +142,7 @@
                                         <img class="card-img rounded-0 img-fluid" src="${product.imagen}" alt="${product.nombre}">
                                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                             <ul class="list-unstyled">
-                                                <li><a class="btn btn-success text-white mt-2" href="shop-single.html?id=${product.id}"><i class="far fa-eye"></i></a></li>
+                                                <li><a class="btn btn-success text-white mt-2" href="shop-single?id=${product.id}"><i class="far fa-eye"></i></a></li>
                                                 <li><a id="addCart" class="btn btn-success text-white mt-2 add-to-cart hidden" data-id="${product.id}" data-name="${product.nombre}" data-price="${product.precio}" data-image="${product.imagen}"><i class="fas fa-cart-plus"></i></a></li>
                                             </ul>
                                         </div>
@@ -200,7 +202,7 @@
             localStorage.removeItem('nombreUsuario');
             showCustomAlertCheck("Sesión cerrada correctamente");
             setTimeout(function() {
-                window.location.href = './index.html';
+                window.location.href = './index';
             }, 2000); 
         }
     </script>
